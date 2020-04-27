@@ -80,7 +80,7 @@ const add_info = function(message, command_content) {
       message.channel.send("add_info failed: " + err, output_error);
       return console.error(err);
     }
-    return message.author.reply("added info on " + args[0]);
+    return message.reply("added info on " + args[0], output_error);
   });
 }
 commands["add_info"] = add_info;

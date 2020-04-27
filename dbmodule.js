@@ -19,8 +19,11 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 db.run(`
     CREATE TABLE
     IF NOT EXISTS
-    ${info_table_name}(id, text)
-  `, (err) => {
+    ${info_table_name}(
+      [id] NVARCHAR[16] NOT NULL,
+      [text] NVARCHAR[184] NOT NULL
+    )
+  `, [], (err) => {
     if (err) {
       return console.error(err.message);
     }
@@ -36,28 +39,28 @@ exports.get_info = function(id, callback) {
   return db.get(`
       SELECT id, text
       FROM ${info_table_name}
-      WHERE id = ${id}
-    `, callback
+      WHERE id = ?
+    `, [id], callback
   );
 };
 
 // add info to table
 exports.add_info = function(id, text, callback) {
   return db.run(`
-      INSERT INTO info (id, text)
+      INSERT INTO info
       VALUES
         ('a', 'b')
-    `, callback
+    `, [], callback
   );
 };
 
 // update info in table
 exports.update_info = function(id, text, callback) {
   return db.run(`
-      UPDATE ?
+      UPDATE ${info_table_name}
       SET text = ?
       WHERE id = ?
-    `, [info_table_name, id, text], callback
+    `, [id, text], callback
   );
 };
 
@@ -68,9 +71,9 @@ exports.remove_info = function(id, callback) {
   }
   
   return db.run(`
-      DELETE FROM ?
+      DELETE FROM ${info_table_name}
       WHERE
         id = ?
-    `, [info_table_name, id], callback
+    `, [id], callback
   );
 };
