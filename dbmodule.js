@@ -27,8 +27,14 @@ exports.add_info = function(id, text) {
   
   db.run("INSERT INTO info(id text) VALUES ${id} ${text}", (err) => {
     if (err) {
-      return [false, err.message];
+      console.err(err.message);
     }
   });
-  return [true]
 };
+
+// remove
+exports.remove_info = function(id) {
+  if (!id) {
+    console.err("Invalid arguments, please refer to the help command");
+  }
+}
