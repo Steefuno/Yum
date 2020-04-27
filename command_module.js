@@ -59,18 +59,18 @@ const whats = function(message, command_content) {
   // command_content = "info id"
   var args = get_args(command_content);
   if (args.length != 1) {
-    return message.reply("your message is a bit weird, please refer to the help command", output_error);
+    return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
   
   console.log(args);
   return dbmodule.get_info(args[0], (err, row) => {
     if (err) {
-      return message.channel.send("cannot get info: " + args[0], output_error);
+      return message.reply("get_info failed: " + args[0], output_error);
     }
     if (row == null) {
-      return message.channel.send("can't get info on " + args[0]);
+      return message.reply("I can't get info on " + args[0]);
     }
-    return message.channel.send(row.text, output_error);
+    return message.reply(row.text, output_error);
   });
 }
 commands["what's"] = whats;
@@ -81,7 +81,7 @@ const add_info = function(message, command_content) {
   // command_content = '"info" "id"'
   var args = get_args(command_content);
   if (args.length != 2) {
-    return message.reply("your message is a bit weird, please refer to the help command", output_error);
+    return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
   
   dbmodule.add_info(args[0], args[1], (err) => {
@@ -89,7 +89,7 @@ const add_info = function(message, command_content) {
       message.reply("add_info failed: " + err, output_error);
       return console.error(err);
     }
-    return message.reply("added " + args[0], output_error);
+    return message.reply("I added " + args[0] + " successfully.", output_error);
   });
 }
 commands["add"] = add_info;
@@ -100,14 +100,17 @@ const remove_info = function(message, command_content) {
   // command_content = "id"
   var args = get_args(command_content);
   if (args.length != 1) {
-    return message.reply("your message is a bit weird, please refer to the help command", output_error);
+    return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
   
   dbmodule.remove_info(args[0], (err) => {
     if (err) {
-      message.reply("remove_info")
+      message.reply("remove_info failed: " + err, output_error);
+      return console.error(err);
     }
+    return message.reply("I removed " + args[0] + " successfully.", output_error);
   });
 }
+
 
 exports.commands = commands;

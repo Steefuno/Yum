@@ -12,7 +12,7 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
   if (err) {
     console.error(err.message);
   }
-  console.log("Connected to the database.");
+  console.log("Connected to the secret service.");
 });
 
 // create info table
@@ -27,7 +27,6 @@ db.run(`
     if (err) {
       return console.error(err.message);
     }
-    console.log(info_table_name + " table is created.")
   }
 );
 
