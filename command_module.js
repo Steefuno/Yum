@@ -4,3 +4,10 @@ var prefix = "hey steve";
 const get_command = function(message) {
   return message.match(prefix + "(.*)", "i");
 };
+
+var commands = {};
+
+// ping command
+const ping = function(speaker) {
+  
+}
