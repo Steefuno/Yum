@@ -1,10 +1,7 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-sqlite",
+  "name": "happy-dreams-announcer",
   "version": "0.0.1",
-  "description": "A simple Node app with SQLite as a database management system, instantly up and running.",
+  "description": "Discord bot that handles announcements and commands for the Happy Dreams Discord server.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
