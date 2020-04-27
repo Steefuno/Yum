@@ -19,7 +19,7 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 db.run(`
     CREATE TABLE
     IF NOT EXISTS
-    ${info_table_name}(id NOT NULL, text NOT NULL)
+    ${info_table_name}(id, text)
   `, (err) => {
     if (err) {
       return console.error(err.message);
@@ -44,9 +44,10 @@ exports.get_info = function(id, callback) {
 // add info to table
 exports.add_info = function(id, text, callback) {
   return db.run(`
-      INSERT INTO ?(?)
-      VALUES (?)
-    `, [info_table_name, id, text], callback
+      INSERT INTO info (id, text)
+      VALUES
+        ('a', 'b')
+    `, callback
   );
 };
 
