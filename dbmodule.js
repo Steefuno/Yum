@@ -1,23 +1,34 @@
 const fs = require("fs");
 
-// init sqlite db
+/* init sqlite db */
 const file = "./.data/sqlite.db";
 const exists = fs.existsSync(file);
 const sqlite3 = require("sqlite3").verbose();
-
-const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE, (err) => {
+// open file
+const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE , (err) => {
   if (err) {
     console.error(err.message);
   }
   console.log("Connected to the chinook database.");
 });
-
 // create info table
-db.run('CREATE TABLE info(id text)', (err) => {
+db.run("CREATE TABLE info(id text)", (err) => {
   if (err) {
     console.err(err.message);
   }
   console.log("info table is created.")
 });
 
-exports.
+// add 
+exports.add_info = function(id, text) {
+  if (!id || !text) {
+    console.err("invalid input");
+  }
+  
+  db.run("INSERT INTO info(id text) VALUES ${id} ${text}", (err) => {
+    if (err) {
+      return [false, err.message];
+    }
+  });
+  return [true]
+};
