@@ -23,9 +23,12 @@ const get_args = function(command_content) {
   if (args.length == 0) {
     return command_content.split(" ");
   } else {
-    var result = {};
-    
-    return args;
+    var result = [];
+    var i;
+    for (i=0; i < args.length; i++) {
+      result.push(args[i][1]);
+    }
+    return result;
   }
 }
 
@@ -46,7 +49,6 @@ const ping = function(message, command_content) {
   // command_content ignore
   var args = get_args(command_content);
   
-  console.log(args);
   return message.channel.send("pong", output_error);
 }
 commands["ping"] = ping;
@@ -69,7 +71,17 @@ const add_info = function(message, command_content) {
   // command_content[0] = row id
   // command_content[1] = row text
   var args = get_args(command_content);
-  return dbmodule.add_info(args[1], args[2], output_error);
+  if (args.length != 2) {
+    return message.channel.send("Invalid arguments, please refer to the help command", output_error);
+  }
+  console.log(args[0], "\t", args[1]);
+  dbmodule.add_info(args[0], args[1], (err) => {
+    if (err) {
+      message.channel.send("add_info failed: " + err, output_error);
+      return console.error(err);
+    }
+    return message.author.reply("added info on " + args[0]);
+  });
 }
 commands["add_info"] = add_info;
 

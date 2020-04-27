@@ -19,10 +19,10 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 db.run(`
     CREATE TABLE
     IF NOT EXISTS
-    info(id NOT NULL, text NOT NULL)
-  `, (err) => {
+    ?(id NOT NULL, text NOT NULL)
+  `, [info_table_name], (err) => {
     if (err) {
-      console.error(err.message);
+      return console.error(err.message);
     }
     console.log(info_table_name + " table is created.")
   }
@@ -35,28 +35,28 @@ db.run(`
 exports.get_info = function(id, callback) {
   return db.get(`
       SELECT id, text
-      FROM ${info_table_name}
+      FROM ?
       WHERE id = ?
-    `, id, callback
+    `, [info_table_name, id], callback
   );
 };
 
 // add info to table
 exports.add_info = function(id, text, callback) {
   return db.run(`
-      INSERT INTO ${info_table_name}(id text)
-      VALUES ('${id}', '${text}')
-    `, callback
+      INSERT INTO ?(id text)
+      VALUES (?, ?)
+    `, [info_table_name, id, text], callback
   );
 };
 
 // update info in table
 exports.update_info = function(id, text, callback) {
   return db.run(`
-      UPDATE ${info_table_name}
-      SET text = '${text}'
-      WHERE id = '${id}'
-    `, callback
+      UPDATE ?
+      SET text = ?
+      WHERE id = ?
+    `, [info_table_name, id, text], callback
   );
 };
 
@@ -67,9 +67,9 @@ exports.remove_info = function(id, callback) {
   }
   
   return db.run(`
-      DELETE FROM ${info_table_name}
+      DELETE FROM ?
       WHERE
-        id = '${id}'
-    `, callback
+        id = ?
+    `, [info_table_name, id], callback
   );
 };
