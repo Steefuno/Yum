@@ -17,11 +17,9 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 
 // create info table
 db.run(`
-    CREATE TABLE IF NOT EXISTS
-    info(
-      id NOT NULL,
-      text
-    )
+    CREATE TABLE
+    IF NOT EXISTS
+    info(id NOT NULL, text NOT NULL)
   `, (err) => {
     if (err) {
       console.error(err.message);
@@ -30,38 +28,43 @@ db.run(`
   }
 );
 
-// add function
-exports.add_info = function(id, text) {
-  if (!id || !text) {
-    console.error("Invalid arguments, please refer to the help command");
-  }
+/* module functions */
+// note, each is asynchronous, so use a callback function
+
+// get data from info table
+exports.get_info = function(id, callback) {
   
-  db.run(`
+}
+
+// add info to table
+exports.add_info = function(id, text, callback) {
+  return db.run(`
     INSERT INTO ${info_table_name}(id text)
-    VALUES
-      ('${id}', '${text}')
-  `, (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-  });
-  return;
+    VALUES ('${id}', '${text}')
+  `, (err) => callback
+  );
 };
 
-// remove function
-exports.remove_info = function(id) {
+// update info in table
+exports.update_info = function(id, text, callback) {
+  return db.run(`
+    UPDATE ${info_table_name}
+    SET text = '${text}'
+    WHERE id = '${id}'
+  `, (err) => callback
+  );
+}
+
+// remove info using an id from table
+exports.remove_info = function(id, callback) {
   if (!id) {
     console.err("Invalid arguments, please refer to the help command");
   }
   
-  db.run(`
+  return db.run(`
     DELETE FROM ${info_table_name}
     WHERE
       id = '${id}'
-  `, (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-  });
-  return;
+  `, (err) => callback
+  );
 }
