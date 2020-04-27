@@ -19,8 +19,8 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 db.run(`
     CREATE TABLE
     IF NOT EXISTS
-    ?(id NOT NULL, text NOT NULL)
-  `, [info_table_name], (err) => {
+    ${info_table_name}(id NOT NULL, text NOT NULL)
+  `, (err) => {
     if (err) {
       return console.error(err.message);
     }
@@ -35,17 +35,17 @@ db.run(`
 exports.get_info = function(id, callback) {
   return db.get(`
       SELECT id, text
-      FROM ?
-      WHERE id = ?
-    `, [info_table_name, id], callback
+      FROM ${info_table_name}
+      WHERE id = ${id}
+    `, callback
   );
 };
 
 // add info to table
 exports.add_info = function(id, text, callback) {
   return db.run(`
-      INSERT INTO ?(id text)
-      VALUES (?, ?)
+      INSERT INTO ?(?)
+      VALUES (?)
     `, [info_table_name, id, text], callback
   );
 };
