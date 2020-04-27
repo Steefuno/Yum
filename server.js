@@ -19,6 +19,7 @@ const handleMessage = function(message) {
   // Get command function
   var func = command_module.commands[command_data[1].toLowerCase()]
   if (func == null) {
+    console.log(command_data[1]);
     return message.reply("haha, I can't do that.");
   }
     

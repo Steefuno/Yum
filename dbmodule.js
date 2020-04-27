@@ -20,7 +20,7 @@ db.run(`
     CREATE TABLE
     IF NOT EXISTS
     ${info_table_name}(
-      [id] NVARCHAR[16] NOT NULL,
+      [id] NVARCHAR[16] NOT NULL PRIMARY KEY UNIQUE,
       [text] NVARCHAR[184] NOT NULL
     )
   `, [], (err) => {
@@ -70,7 +70,7 @@ exports.remove_info = function(id, callback) {
 // get all tuples in info
 exports.get_all = function(callback) {
   return db.all(`
-      SELECT (id, text)
+      SELECT *
       FROM ${info_table_name}
     `, [], callback
   )

@@ -49,18 +49,22 @@ const ping = function(message, command_content) {
   // command_content ignore
   var args = get_args(command_content);
   
-  // output all tuple ids
-  dbmodule.get_all((err, rows) => {
-    if (err) {
-      message.reply("ping failed: " + err, output_error);
-      return console.error(err);
-    }
-    
-    console.log("Getting all rows:");
-    rows.forEach((row) => {
-      console.log("\t", row.id, "\t", row.id);
+  // if manage message perm
+  var author_permissions = message.member.permissionsIn(message.channel.id);
+  if (author_permissions.bitfield & 0x00002000 != 0) { // Manage Messages Permission
+    // output all tuple ids
+    dbmodule.get_all((err, rows) => {
+      if (err) {
+        message.reply("ping failed: " + err, output_error);
+        return console.error(err);
+      }
+
+      console.log("Getting all rows:");
+      rows.forEach((row) => {
+        console.log("\t", row.id, "\t", row.text);
+      });
     });
-  });
+  }
   
   return message.reply("pong", output_error);
 }
@@ -76,7 +80,7 @@ const get_info = function(message, command_content) {
   }
   
   console.log(args);
-  return dbmodule.get_info(args[0], (err, row) => {
+  return dbmodule.get_info(args[0].toLowerCase(), (err, row) => {
     if (err) {
       return message.reply("get_info failed: " + args[0], output_error);
     }
@@ -94,7 +98,6 @@ commands["get"] = get_info;
 const add_info = function(message, command_content) {
   // Get if user has access
   var author_permissions = message.member.permissionsIn(message.channel.id);
-  console.log(author_permissions.bitfield, author_permissions & 0x00002000);
   if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
     return message.reply("haha, you can't do that.");
   }
@@ -105,7 +108,7 @@ const add_info = function(message, command_content) {
     return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
   
-  dbmodule.add_info(args[0], args[1], (err) => {
+  dbmodule.add_info(args[0].toLowerCase(), args[1], (err) => {
     if (err) {
       message.reply("add_info failed: " + err, output_error);
       return console.error(err);
@@ -120,7 +123,6 @@ commands["set"] = add_info;
 const remove_info = function(message, command_content) {
   // Get if user has access
   var author_permissions = message.member.permissionsIn(message.channel.id);
-  console.log(author_permissions.bitfield, author_permissions & 0x00002000);
   if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
     return message.reply("haha, you can't do that.");
   }
@@ -131,7 +133,7 @@ const remove_info = function(message, command_content) {
     return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
   
-  dbmodule.remove_info(args[0], (err) => {
+  dbmodule.remove_info(args[0].toLowerCase(), (err) => {
     if (err) {
       message.reply("remove_info failed: " + err, output_error);
       return console.error(err);
