@@ -12,8 +12,21 @@ const get_command = function(str) {
 exports.get_command = get_command;
 
 // get arguments from command content
+const get_quoted_args = function(command_content) {
+  return [...command_content.matchAll(/(?:"([^"]*)"\s*)/g)];
+}
 const get_args = function(command_content) {
-  return command_content.match(/("[^"]*")*/i);
+  // get args separated by quotes
+  var args = get_quoted_args(command_content);
+  
+  // if args by quotes DNE, get separated by space
+  if (args.length == 0) {
+    return command_content.split(" ");
+  } else {
+    var result = {};
+    
+    return args;
+  }
 }
 
 // output error if exists
@@ -32,7 +45,8 @@ var commands = {};
 const ping = function(message, command_content) {
   // command_content ignore
   var args = get_args(command_content);
-  console.log(args.length);
+  
+  console.log(args);
   return message.channel.send("pong", output_error);
 }
 commands["ping"] = ping;
