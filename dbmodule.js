@@ -37,7 +37,7 @@ exports.get_info = function(id, callback) {
       SELECT id, text
       FROM ${info_table_name}
       WHERE id = ?
-    `, id, (err, row) => callback
+    `, id, callback
   );
 };
 
@@ -46,7 +46,7 @@ exports.add_info = function(id, text, callback) {
   return db.run(`
       INSERT INTO ${info_table_name}(id text)
       VALUES ('${id}', '${text}')
-    `, (err) => callback
+    `, callback
   );
 };
 
@@ -56,7 +56,7 @@ exports.update_info = function(id, text, callback) {
       UPDATE ${info_table_name}
       SET text = '${text}'
       WHERE id = '${id}'
-    `, (err) => callback
+    `, callback
   );
 };
 
@@ -70,6 +70,6 @@ exports.remove_info = function(id, callback) {
       DELETE FROM ${info_table_name}
       WHERE
         id = '${id}'
-    `, (err) => callback
+    `, callback
   );
 };
