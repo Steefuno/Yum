@@ -44,6 +44,7 @@ const output_error = function(err) {
 /* Commands */
 var commands = {};
 
+
 // ping command
 const ping = function(message, command_content) {
   // command_content ignore
@@ -71,6 +72,7 @@ const ping = function(message, command_content) {
 commands["ping"] = ping;
 commands["boop"] = ping;
 
+
 // get text using an id from database
 const get_info = function(message, command_content) {
   // command_content = "info id"
@@ -94,18 +96,19 @@ commands["what's"] = get_info;
 commands["whats"] = get_info;
 commands["get"] = get_info;
 
+
 // add text to database
 const add_info = function(message, command_content) {
-  // Get if user has access
-  var author_permissions = message.member.permissionsIn(message.channel.id);
-  if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
-    return message.reply("haha, you can't do that.");
-  }
-  
   // command_content = '"info" "id"'
   var args = get_args(command_content);
   if (args.length != 2) {
     return message.reply("your message is a bit weird, please refer to the help command.", output_error);
+  }
+  
+  // Get if user has access
+  var author_permissions = message.member.permissionsIn(message.channel.id);
+  if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
+    return message.reply("haha, you can't do that.");
   }
   
   dbmodule.add_info(args[0].toLowerCase(), args[1], (err) => {
@@ -119,18 +122,19 @@ const add_info = function(message, command_content) {
 commands["add"] = add_info;
 commands["set"] = add_info;
 
+
 // remove text from database
 const remove_info = function(message, command_content) {
-  // Get if user has access
-  var author_permissions = message.member.permissionsIn(message.channel.id);
-  if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
-    return message.reply("haha, you can't do that.");
-  }
-  
   // command_content = "id"
   var args = get_args(command_content);
   if (args.length != 1) {
     return message.reply("your message is a bit weird, please refer to the help command.", output_error);
+  }
+  
+  // Get if user has access
+  var author_permissions = message.member.permissionsIn(message.channel.id);
+  if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
+    return message.reply("haha, you can't do that.");
   }
   
   dbmodule.remove_info(args[0].toLowerCase(), (err) => {
@@ -144,5 +148,20 @@ const remove_info = function(message, command_content) {
 commands["remove"] = remove_info;
 commands["delete"] = remove_info;
 
+
+// Say an embeded message in a channel
+const say_in = function(message, command_content) {
+  // command_content = "<#channel mention>  message"
+  var mentioned_channel = message.mentions.
+  console.log(args);
+  
+  // Get if user has access
+  var author_permissions = message.member.permissionsIn(message.channel.id);
+  if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
+    return message.reply("haha, you can't do that.");
+  }
+  
+  
+}
 
 exports.commands = commands;
