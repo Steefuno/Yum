@@ -1,7 +1,9 @@
-var command_prefix = "hey steve";
+var prefix = "hey steve";
 
 // check if a string is in command format
-const get_is_command = function(message) {
-  
+const is_command = function(message) {
+  return (message.match(/${prefix}/i) != null);
 }
-exports
+exports.is_command = is_command;
+
+// get text after prefix
