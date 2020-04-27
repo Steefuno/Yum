@@ -13,7 +13,7 @@ const handleMessage = function(message) {
   
   var command_data = message_data[1].match(/(\S*)\s*(.*)/i);
   if (command_data == null) {
-    return message.reply("Invalid command");
+    return message.reply("can you repeat that? I didn't read that correctly.");
   }
   
   // Check if user has access
@@ -24,7 +24,11 @@ const handleMessage = function(message) {
   // Run command
   console.log(command_data[1]);
   var func = command_module.commands[command_data[1].toLowerCase()]
-  if (func) return func(message, command_data[2]);
+  if (func) {
+    return func(message, command_data[2]);
+  } else {
+    return message.reply("haha, I can't do that.");
+  }
 };
 
 client.on('message', handleMessage);

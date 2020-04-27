@@ -59,7 +59,7 @@ const whats = function(message, command_content) {
   // command_content = "info id"
   var args = get_args(command_content);
   if (args.length != 1) {
-    return message.channel.send("Invalid arguments, please refer to the help command", output_error);
+    return message.reply("your message is a bit weird, please refer to the help command", output_error);
   }
   console.log(args);
   return dbmodule.get_info(args[0], (err, row) => {
@@ -78,11 +78,10 @@ commands["get"] = whats;
 
 // add text to database
 const add_info = function(message, command_content) {
-  // command_content[0] = row id
-  // command_content[1] = row text
+  // command_content = '"info" "id"'
   var args = get_args(command_content);
   if (args.length != 2) {
-    return message.channel.send("Invalid arguments, please refer to the help command", output_error);
+    return message.reply("your message is a bit weird, please refer to the help command", output_error);
   }
   dbmodule.add_info(args[0], args[1], (err) => {
     if (err) {
@@ -92,6 +91,16 @@ const add_info = function(message, command_content) {
     return message.reply("added " + args[0], output_error);
   });
 }
+commands["add"] = add_info;
 commands["set"] = add_info;
+
+// remove text from database
+const remove_info = function(message, command_content) {
+  // command_content = "id"
+  var args = get_args(command_content);
+  if (args.length != 1) {
+    return message.reply("your message is a bit weird, please refer to the help command", output_error);
+  }
+}
 
 exports.commands = commands;
