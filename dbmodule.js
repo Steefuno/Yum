@@ -24,7 +24,7 @@ db.run(`
     if (err) {
       console.error(err.message);
     }
-    console.log("${info_table_name} table is created.")
+    console.log(info_table_name + " table is created.")
   }
 );
 
