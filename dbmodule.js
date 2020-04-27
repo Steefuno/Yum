@@ -1,30 +1,23 @@
 const fs = require("fs");
 
 // init sqlite db
-const dbFile = "./.data/sqlite.db";
-const exists = fs.existsSync(dbFile);
+const file = "./.data/sqlite.db";
+const exists = fs.existsSync(file);
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database(dbFile);
 
-// if ./.data/sqlite.db does not exist, create it
-db.serialize(() => {
-  if (!exists) {
-    db.run(
-      "CREATE TABLE Dreams (id INTEGER PRIMARY KEY AUTOINCREMENT, dream TEXT)"
-    );
-    console.log("New table Dreams created!");
-
-    // insert default dreams
-    db.serialize(() => {
-      db.run(
-        'INSERT INTO Dreams (dream) VALUES ("Find and count some sheep"), ("Climb a really tall mountain"), ("Wash the dishes")'
-      );
-    });
-  } else {
-    console.log("DB Loaded");
+const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE, (err) => {
+  if (err) {
+    console.error(err.message);
   }
+  console.log("Connected to the chinook database.");
 });
 
-exports.f = function() {
-  
-}
+// create info table
+db.run('CREATE TABLE info(id text)', (err) => {
+  if (err) {
+    console.err(err.message);
+  }
+  console.log("info table is created.")
+});
+
+exports.

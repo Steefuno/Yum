@@ -1,5 +1,5 @@
 {
-  "name": "happy-dreams-announcer",
+  "name": "happy-dreams-bot",
   "version": "0.0.1",
   "description": "Discord bot that handles announcements and commands for the Happy Dreams Discord server.",
   "main": "server.js",
@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "sqlite3": "^4.1.1"
+    "sqlite3": "^4.1.1",
+    "discord.js": "^12.2.0"
   },
   "engines": {
     "node": "12.x"
@@ -19,7 +20,6 @@
   "license": "MIT",
   "keywords": [
     "node",
-    "glitch",
-    "express"
+    "glitch"
   ]
 }
