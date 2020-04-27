@@ -33,27 +33,32 @@ db.run(`
 
 // get data from info table
 exports.get_info = function(id, callback) {
-  
-}
+  return db.get(`
+      SELECT id, text
+      FROM ${info_table_name}
+      WHERE id = ?
+    `, id, (err, row) => callback
+  );
+};
 
 // add info to table
 exports.add_info = function(id, text, callback) {
   return db.run(`
-    INSERT INTO ${info_table_name}(id text)
-    VALUES ('${id}', '${text}')
-  `, (err) => callback
+      INSERT INTO ${info_table_name}(id text)
+      VALUES ('${id}', '${text}')
+    `, (err) => callback
   );
 };
 
 // update info in table
 exports.update_info = function(id, text, callback) {
   return db.run(`
-    UPDATE ${info_table_name}
-    SET text = '${text}'
-    WHERE id = '${id}'
-  `, (err) => callback
+      UPDATE ${info_table_name}
+      SET text = '${text}'
+      WHERE id = '${id}'
+    `, (err) => callback
   );
-}
+};
 
 // remove info using an id from table
 exports.remove_info = function(id, callback) {
@@ -62,9 +67,9 @@ exports.remove_info = function(id, callback) {
   }
   
   return db.run(`
-    DELETE FROM ${info_table_name}
-    WHERE
-      id = '${id}'
-  `, (err) => callback
+      DELETE FROM ${info_table_name}
+      WHERE
+        id = '${id}'
+    `, (err) => callback
   );
-}
+};
