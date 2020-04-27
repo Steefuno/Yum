@@ -9,6 +9,7 @@ const get_command = function(str) {
   
   return result[1].match(/\s*(.*)/i);
 };
+exports.get_command = get_command;
 
 var commands = {};
 
@@ -17,3 +18,5 @@ const ping = function(message, command_content) {
   message.reply("pong");
 }
 commands["ping"] = ping;
+
+exports.commands = commands;

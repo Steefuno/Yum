@@ -8,10 +8,7 @@ const handleMessage = function(message) {
   var message_data = command_module.get_command(message.content);
   if (message_data == null) return;
   
-  console.log(message.content);
-  
   var command_data = message_data[1].match(/(\S*)\s*(.*)/i);
-  console.log(command_data);
   if (command_data == null) {
     return message.reply("Invalid command");
   }
@@ -25,6 +22,5 @@ const handleMessage = function(message) {
   return command_module.commands[command_data[1].toLowerCase()](message, command_data[2]);
 };
 
-client.on('message', message => handleMessage);
-
+client.on('message', handleMessage);
 client.login(bot_data.token);
