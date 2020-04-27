@@ -36,7 +36,7 @@ db.run(`
 // get data from info table
 exports.get_info = function(id, callback) {
   return db.get(`
-      SELECT id, text
+      SELECT (id, text)
       FROM ${info_table_name}
       WHERE id = ?
     `, [id], callback
@@ -66,3 +66,12 @@ exports.remove_info = function(id, callback) {
     `, [id], callback
   );
 };
+
+// get all tuples in info
+exports.get_all = function(callback) {
+  return db.all(`
+      SELECT (id, text)
+      FROM ${info_table_name}
+    `, [], callback
+  )
+}

@@ -49,12 +49,25 @@ const ping = function(message, command_content) {
   // command_content ignore
   var args = get_args(command_content);
   
+  // output all tuple ids
+  dbmodule.get_all((err, rows) => {
+    if (err) {
+      message.reply("ping failed: " + err, output_error);
+      return console.error(err);
+    }
+    
+    console.log("Getting all rows:");
+    rows.forEach((row) => {
+      console.log("\t", row.id, "\t", row.id);
+    });
+  });
+  
   return message.reply("pong", output_error);
 }
 commands["ping"] = ping;
 commands["boop"] = ping;
 
-// what's command
+// get text using an id from database
 const get_info = function(message, command_content) {
   // command_content = "info id"
   var args = get_args(command_content);
@@ -79,6 +92,13 @@ commands["get"] = get_info;
 
 // add text to database
 const add_info = function(message, command_content) {
+  // Get if user has access
+  var author_permissions = message.member.permissionsIn(message.channel.id);
+  console.log(author_permissions.bitfield, author_permissions & 0x00002000);
+  if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
+    return message.reply("haha, you can't do that.");
+  }
+  
   // command_content = '"info" "id"'
   var args = get_args(command_content);
   if (args.length != 2) {
@@ -98,6 +118,13 @@ commands["set"] = add_info;
 
 // remove text from database
 const remove_info = function(message, command_content) {
+  // Get if user has access
+  var author_permissions = message.member.permissionsIn(message.channel.id);
+  console.log(author_permissions.bitfield, author_permissions & 0x00002000);
+  if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
+    return message.reply("haha, you can't do that.");
+  }
+  
   // command_content = "id"
   var args = get_args(command_content);
   if (args.length != 1) {

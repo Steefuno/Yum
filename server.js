@@ -21,12 +21,6 @@ const handleMessage = function(message) {
   if (func == null) {
     return message.reply("haha, I can't do that.");
   }
-  
-  // Get if user has access
-  var author_permissions = message.member.permissionsIn(message.channel.id);
-  if (author_permissions.missing(new BitFieldResolvable )) {
-    return message.reply("haha, you can't do that.");
-  }
     
   // Run Command
   return func(message, command_data[2]);
