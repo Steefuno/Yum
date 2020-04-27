@@ -49,8 +49,8 @@ exports.add_info = function(id, text, callback) {
   return db.run(`
       INSERT INTO info
       VALUES
-        ('a', 'b')
-    `, [], callback
+        (?, ?)
+    `, [id, text], callback
   );
 };
 

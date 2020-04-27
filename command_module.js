@@ -52,19 +52,29 @@ const ping = function(message, command_content) {
   return message.channel.send("pong", output_error);
 }
 commands["ping"] = ping;
+commands["boop"] = ping;
 
 // what's command
 const whats = function(message, command_content) {
   // command_content = "info id"
   var args = get_args(command_content);
-  return dbmodule.get_info(command_content, (err, row) => {
+  if (args.length != 1) {
+    return message.channel.send("Invalid arguments, please refer to the help command", output_error);
+  }
+  console.log(args);
+  return dbmodule.get_info(args[0], (err, row) => {
     if (err) {
-      return message.channel.send("cannot get info: " + command_content, output_error);
+      return message.channel.send("cannot get info: " + args[0], output_error);
+    }
+    if (row == null) {
+      return message.channel.send("can't get info on " + args[0]);
     }
     return message.channel.send(row.text, output_error);
   });
 }
+commands["what's"] = whats;
 commands["whats"] = whats;
+commands["get"] = whats;
 
 // add text to database
 const add_info = function(message, command_content) {
@@ -74,15 +84,14 @@ const add_info = function(message, command_content) {
   if (args.length != 2) {
     return message.channel.send("Invalid arguments, please refer to the help command", output_error);
   }
-  console.log(args[0], "\t", args[1]);
   dbmodule.add_info(args[0], args[1], (err) => {
     if (err) {
       message.channel.send("add_info failed: " + err, output_error);
       return console.error(err);
     }
-    return message.reply("added info on " + args[0], output_error);
+    return message.reply("added " + args[0], output_error);
   });
 }
-commands["add_info"] = add_info;
+commands["set"] = add_info;
 
 exports.commands = commands;
