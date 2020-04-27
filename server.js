@@ -6,8 +6,6 @@ const command_module = require("./command_module");
 const handleMessage = function(message) {
   // Ignore bot messages
   if (message.author.bot) return;
-  // Ignore users
-  
   
   // Check if message is in command format
   var message_data = command_module.get_command(message.content);
@@ -25,7 +23,7 @@ const handleMessage = function(message) {
   }
   
   // Get if user has access
-  
+  if (message.member.roles)
     
   // Run Command
   return func(message, command_data[2]);

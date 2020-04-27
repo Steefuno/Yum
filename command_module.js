@@ -55,7 +55,7 @@ commands["ping"] = ping;
 commands["boop"] = ping;
 
 // what's command
-const whats = function(message, command_content) {
+const get_info = function(message, command_content) {
   // command_content = "info id"
   var args = get_args(command_content);
   if (args.length != 1) {
@@ -73,8 +73,9 @@ const whats = function(message, command_content) {
     return message.reply(row.text, output_error);
   });
 }
-commands["what's"] = whats;
-commands["whats"] = whats;
+commands["what's"] = get_info;
+commands["whats"] = get_info;
+commands["get"] = get_info;
 
 // add text to database
 const add_info = function(message, command_content) {
@@ -111,6 +112,8 @@ const remove_info = function(message, command_content) {
     return message.reply("I removed " + args[0] + " successfully.", output_error);
   });
 }
+commands["remove"] = remove_info;
+commands["delete"] = remove_info;
 
 
 exports.commands = commands;

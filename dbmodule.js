@@ -46,19 +46,9 @@ exports.get_info = function(id, callback) {
 // add info to table
 exports.add_info = function(id, text, callback) {
   return db.run(`
-      INSERT INTO info
+      INSERT OR REPLACE INTO info
       VALUES
         (?, ?)
-    `, [id, text], callback
-  );
-};
-
-// update info in table
-exports.update_info = function(id, text, callback) {
-  return db.run(`
-      UPDATE ${info_table_name}
-      SET text = ?
-      WHERE id = ?
     `, [id, text], callback
   );
 };
