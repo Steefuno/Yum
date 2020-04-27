@@ -49,7 +49,7 @@ const ping = function(message, command_content) {
   // command_content ignore
   var args = get_args(command_content);
   
-  return message.channel.send("pong", output_error);
+  return message.reply("pong", output_error);
 }
 commands["ping"] = ping;
 commands["boop"] = ping;
@@ -61,6 +61,7 @@ const whats = function(message, command_content) {
   if (args.length != 1) {
     return message.reply("your message is a bit weird, please refer to the help command", output_error);
   }
+  
   console.log(args);
   return dbmodule.get_info(args[0], (err, row) => {
     if (err) {
@@ -74,7 +75,6 @@ const whats = function(message, command_content) {
 }
 commands["what's"] = whats;
 commands["whats"] = whats;
-commands["get"] = whats;
 
 // add text to database
 const add_info = function(message, command_content) {
@@ -83,9 +83,10 @@ const add_info = function(message, command_content) {
   if (args.length != 2) {
     return message.reply("your message is a bit weird, please refer to the help command", output_error);
   }
+  
   dbmodule.add_info(args[0], args[1], (err) => {
     if (err) {
-      message.channel.send("add_info failed: " + err, output_error);
+      message.reply("add_info failed: " + err, output_error);
       return console.error(err);
     }
     return message.reply("added " + args[0], output_error);
@@ -101,6 +102,12 @@ const remove_info = function(message, command_content) {
   if (args.length != 1) {
     return message.reply("your message is a bit weird, please refer to the help command", output_error);
   }
+  
+  dbmodule.remove_info(args[0], (err) => {
+    if (err) {
+      message.reply("remove_info")
+    }
+  });
 }
 
 exports.commands = commands;

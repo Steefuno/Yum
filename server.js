@@ -5,6 +5,7 @@ const command_module = require("./command_module");
 
 const handleMessage = function(message) {
   // Ignore list
+  console.log(message.content);
   if (message.author.bot) return;
   
   // Check if message is a command
@@ -22,7 +23,6 @@ const handleMessage = function(message) {
   }
   
   // Run command
-  console.log(command_data[1]);
   var func = command_module.commands[command_data[1].toLowerCase()]
   if (func) {
     return func(message, command_data[2]);
