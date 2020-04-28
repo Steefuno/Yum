@@ -80,7 +80,12 @@ const help = function(message, command_content) {
     .setTitle("Help Menu")
     .setDescription(`
       The prefix is currently "${prefix}"
-      **${prefix} help** - 
+      **${prefix} help** - shows you this help menu
+      **${prefix} ping** - pong
+      **${prefix} get NAME** - shows you the text for the name
+      **${prefix} set NAME MESSAGE** - sets a text for a name
+      **${prefix} remove NAME** - removes a text for a name
+      **${prefix} say CHANNELMENTION TITLE MESSAGE** - sends a message in mentioned channel
     `)
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(9821183)
@@ -171,11 +176,15 @@ commands["delete"] = remove_info;
 // Say an embeded message in a channel
 const say_in = function(message, command_content) {
   // command_content = "<#channel mention>  message"
-  var command_data = command_content.match(/[^>]*>\s*(.*)/);
+  var command_data = command_content.match(/[^>]*>\s*"([^"]*)"\s*(.*)/);
   if (command_data == null) {
     return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
-  var text = command_data[1];
+  if (command_data.length != 3) {
+    return message.reply("your message is a bit weird, please refer to the help command.", output_error);
+  }
+  var title = command_data[1];
+  var text = command_data[2];
   
   var mentioned_channel = message.mentions.channels.first();
   if (mentioned_channel == null) {
@@ -189,6 +198,7 @@ const say_in = function(message, command_content) {
   }
   
   var embed = new Discord.MessageEmbed()
+    .setTitle(title)
     .setDescription(text)
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(9821183)
