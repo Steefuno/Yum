@@ -22,23 +22,24 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 });
 
 // Temp to clear all data
-/*db.run(`
-  DROP TABLE IF EXISTS balance;
+db.run(`
+  DROP TABLE balance;
 `, [], output_error);
 db.run(`
-  DROP TABLE IF EXISTS items;
+  DROP TABLE items;
 `, [], output_error);
 db.run(`
-  DROP TABLE IF EXISTS inventories;
-`, [], output_error);*/
+  DROP TABLE inventories;
+`, [], output_error);
+
 
 
 const init = function() {
   // create balances table to store amount of money users have
   db.run(`
     CREATE TABLE IF NOT EXISTS balances (
-      [user_id] INT8 NOT NULL UNIQUE,
-      [balance] INT8 DEFAULT 0,
+      [user_id] INTEGERINTEGER NOT NULL UNIQUE,
+      [balance] INTEGER DEFAULT 0,
       PRIMARY KEY (user_id)
     )
   `, [], (err) => {
@@ -49,7 +50,7 @@ const init = function() {
     // create items
     db.run(`
       CREATE TABLE IF NOT EXISTS items (
-        [item_id] INT8 NOT NULL,
+        [item_id] INTEGER NOT NULL,
         [name] NVARCHAR[32] NOT NULL,
         [description] NVARCHAR[128] DEFAULT "",
         PRIMARY KEY (item_id)
@@ -62,9 +63,9 @@ const init = function() {
       // create user inventories table to store items held
       db.run(`
         CREATE TABLE IF NOT EXISTS inventories (
-          [user_id] INT8 NOT NULL,
-          [item_id] INT8 NOT NULL,
-          [amount] INT8 DEFAULT 0,
+          [user_id] INTEGER NOT NULL,
+          [item_id] INTEGER NOT NULL,
+          [amount] INTEGER DEFAULT 0,
           PRIMARY KEY (user_id, item_id),
           FOREIGN KEY (item_id) REFERENCES items (item_id)
             ON DELETE CASCADE,
@@ -152,40 +153,44 @@ exports.set_inventory_item = set_inventory_item;
 
 setTimeout(() => {
   var UID = 286346660399939588;
-  /*
-  set_balance(UID, 5, (err) => {
+
+  set_balance(UID, 0, (err) => {
     if (err) {
       return console.error(err);
     }
-    console.log("Set balance to 5.");
+    console.log("Set balance to 0.");
   });
-
+/*
   get_balance(UID, (err, row) => {
     if (err) {
       return console.error(err);
     }
     console.log(row);
   });
+*/
 
   set_item(1, "Muffin", "Yummy!", (err) => {
     if (err) {
       return console.error(err);
     }
-    console.log("Added muffin.");
+    console.log("Created muffin.");
   });
-  */
+
+  
   set_inventory_item(UID, 1, 3, (err) => {
     if (err) {
       return console.error(err);
     }
     console.log("Given muffen.");
   });
-  /*
+
+/*
   get_inventory(UID, (err, rows) => {
     if (err) {
       return console.error(err);
     }
 
     console.log(rows);
-  });*/
+  });
+*/
 }, 5000);
