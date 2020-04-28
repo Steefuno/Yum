@@ -6,7 +6,8 @@ var prefix = ".happy";
 // get text after prefix
 const get_command = function(str) {
   console.log(str);
-  var result = str.match(prefix + "(.*)", "im");
+  var patt = new RegExp(prefix + "[.\n]*", "im");
+  var result = patt.exec(str);
   console.log(result);
   if (result == null) return null;
   
