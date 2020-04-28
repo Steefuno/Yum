@@ -5,16 +5,18 @@ var prefix = ".happy";
 
 // get text after prefix
 const get_command = function(str) {
-  var result = str.match(prefix + "(.*)", "i");
+  console.log(str);
+  var result = str.match(prefix + "(.*)", "im");
+  console.log(result);
   if (result == null) return null;
   
-  return result[1].match(/\s*(.*)/i);
+  return result[1].match(/\s*(.*)/, "im");
 };
 exports.get_command = get_command;
 
 // get arguments from command content
 const get_quoted_args = function(command_content) {
-  return [...command_content.matchAll(/(?:"([^"]*)"\s*)/g)];
+  return [...command_content.matchAll(/(?:"([^"]*)"\s*)/gm)];
 }
 const get_args = function(command_content) {
   // get args separated by quotes
@@ -176,7 +178,7 @@ commands["delete"] = remove_info;
 // Say an embeded message in a channel
 const say_in = function(message, command_content) {
   // command_content = "<#channel mention>  message"
-  var command_data = command_content.match(/[^>]*>\s*"([^"]*)"\s*(.*)/);
+  var command_data = command_content.match(/[^>]*>\s*"([^"]*)"\s*(.*)/m);
   if (command_data == null) {
     return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
