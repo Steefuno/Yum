@@ -13,13 +13,25 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
   console.log("Connected to the secret service.");
 });
 
-// create info table
+// create balances table to store amount of money users have
 db.run(`
     CREATE TABLE
     IF NOT EXISTS
-    players(
-      [id] VARCHAR[8] NOT NULL PRIMARY KEY UNIQUE,
-      [balance] [184] NOT NULL
+    balances(
+      [id] INT8 NOT NULL PRIMARY KEY UNIQUE,
+      [balance] INT8 DEFAULT 0,
+    )
+  `, [], (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+  }
+);
+db.run(`
+    CREATE TABLE
+    IF NOT EXISTS
+    inventories(
+      [id] VARCHAR[]
     )
   `, [], (err) => {
     if (err) {
