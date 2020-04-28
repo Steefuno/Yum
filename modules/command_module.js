@@ -1,7 +1,7 @@
 const dbmodule = require("./dbmodule");
 const Discord = require('discord.js');
 
-var prefix = ".happy";
+var prefix = "yum!";
 
 // get text after prefix
 const get_command = function(str) {
@@ -15,24 +15,8 @@ const get_command = function(str) {
 exports.get_command = get_command;
 
 // get arguments from command content
-const get_quoted_args = function(command_content) {
-  return [...command_content.matchAll(/(?:"([^"]*)"\s*)/gm)];
-}
 const get_args = function(command_content) {
-  // get args separated by quotes
-  var args = get_quoted_args(command_content);
   
-  // if args by quotes DNE, get separated by space
-  if (args.length == 0) {
-    return command_content.split(" ");
-  } else {
-    var result = [];
-    var i;
-    for (i=0; i < args.length; i++) {
-      result.push(args[i][1]);
-    }
-    return result;
-  }
 }
 
 // output error if exists

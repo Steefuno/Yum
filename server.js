@@ -1,11 +1,8 @@
-const http = require('http');
-const express = require('express');
-const app = express();
-
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const bot_data = require("./bot_data");
-const command_module = require("./command_module");
+const command_module = require("./modules/command_module");
+const keep_alive = require("./modules/keep_alive");
 
 const handleMessage = function(message) {
   // Ignore bot messages
@@ -39,12 +36,3 @@ client.on("ready", () => {
 client.login(bot_data.token, (err) => {
   console.error(err);
 });
-
-app.get("/", (request, response) => {
-  console.log(Date.now() + " Ping Received");
-  response.sendStatus(200);
-});
-app.listen(process.env.PORT);
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
