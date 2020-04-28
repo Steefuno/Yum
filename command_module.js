@@ -1,4 +1,5 @@
 const dbmodule = require("./dbmodule");
+const Discord = require('discord.js');
 
 var prefix = "hey steve";
 
@@ -163,15 +164,22 @@ const say_in = function(message, command_content) {
     return message.reply("your message is a bit weird, please refer to the help command.", output_error);
   }
   
-  console.log("Attempting to say in", mentioned_channel.name, "\t", text);
-  
   // Get if user has access
   var author_permissions = message.member.permissionsIn(message.channel.id);
   if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
     return message.reply("haha, you can't do that.", output_error);
   }
   
-  
+  console.log("Saying in", mentioned_channel.name, "\t", text);
+  var embed = new Discord.MessageEmbed();
+  return mentioned_channel.send('', {
+      embed: {
+        content: text,
+        author: message.author.name,
+        color: 6619030
+      }
+    }, output_error
+  );
 }
 commands["say"] = say_in;
 commands["announce"] = say_in;
