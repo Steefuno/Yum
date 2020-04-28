@@ -78,7 +78,7 @@ const get_balance = function(user_id, callback) {
   return db.get(`
     SELECT (balance)
     FROM balances
-    WHERE (id = ?)
+    WHERE (user_id = ?)
   `, [user_id], callback);
 }
 
@@ -136,5 +136,6 @@ set_balance(UID, 5, (err) => {
       console.error(err);
     }
     console.log(row);
-  })
-})
+  });
+});
+
