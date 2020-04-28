@@ -36,7 +36,9 @@ client.on("message", handleMessage);
 client.on("ready", () => {
   console.log("Joined the fray.");
 });
-client.login(bot_data.token);
+client.login(bot_data.token, (err) => {
+  console.error(err);
+});
 
 
 /* Keep alive */
