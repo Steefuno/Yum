@@ -21,24 +21,11 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
   console.log("Connected to the secret service.");
 });
 
-// Temp to clear all data
-db.run(`
-  DROP TABLE balances;
-`, [], output_error);
-db.run(`
-  DROP TABLE items;
-`, [], output_error);
-db.run(`
-  DROP TABLE inventories;
-`, [], output_error);
-
-
-
 const init = function() {
   // create balances table to store amount of money users have
   db.run(`
     CREATE TABLE IF NOT EXISTS balances (
-      [user_id] INTEGERINTEGER NOT NULL,
+      [user_id] INTEGER NOT NULL,
       [balance] INTEGER DEFAULT 0,
       PRIMARY KEY (user_id),
       UNIQUE (user_id)
@@ -52,8 +39,8 @@ const init = function() {
     db.run(`
       CREATE TABLE IF NOT EXISTS items (
         [item_id] INTEGER NOT NULL,
-        [name] NVARCHAR[32] NOT NULL,
-        [description] NVARCHAR[128] DEFAULT "",
+        [name] TEXT NOT NULL,
+        [description] TEXT DEFAULT "",
         PRIMARY KEY (item_id),
         UNIQUE (item_id)
       )
@@ -140,9 +127,10 @@ const get_inventory = function(user_id, callback) {
 // sets data for an inventory item for one player
 const set_inventory_item = function(user_id, item_id, amount, callback) {
   return db.run(`
-    INSERT OR REPLACE INTO inventories (user_id, item_id, amount)
+    INSERT OR REPLACE
+    INTO inventories (user_id, item_id, amount)
     VALUES (?, ?, ?)
-  ` [user_id, item_id, amount], callback);
+  `, [user_id, item_id, amount], callback);
 }
 
 exports.get_balance = get_balance;
@@ -152,28 +140,4 @@ exports.set_item = set_item;
 exports.get_inventory = get_inventory;
 exports.set_inventory_item = set_inventory_item;
 
-
-setTimeout(() => {
-  var UID = 286346660399939588;
-
-  set_balance(UID, 0, (err) => {
-    if (err) {
-      return console.error(err);
-    }
-    console.log("Set balance to 0.");
-    
-    set_item(1, "Muffin", "Yummy!", (err) => {
-      if (err) {
-        return console.error(err);
-      }
-      console.log("Created muffin.");
-      
-      set_inventory_item(UID, 1, 3, (err) => {
-        if (err) {
-          return console.error(err);
-        }
-        console.log("Given muffen.");
-      });
-    });
-  });
-}, 5000);
+/* below are dangerous functions that could cause dataloss or exploiting, please be careful upon use */
