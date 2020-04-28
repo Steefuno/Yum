@@ -1,7 +1,5 @@
 const fs = require("fs");
 
-const info_table_name = "info";
-
 /* init sqlite db */
 const file = "./.data/sqlite.db";
 const exists = fs.existsSync(file);
@@ -19,9 +17,9 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 db.run(`
     CREATE TABLE
     IF NOT EXISTS
-    ${info_table_name}(
-      [id] NVARCHAR[16] NOT NULL PRIMARY KEY UNIQUE,
-      [text] NVARCHAR[184] NOT NULL
+    players(
+      [id] VARCHAR[8] NOT NULL PRIMARY KEY UNIQUE,
+      [balance] [184] NOT NULL
     )
   `, [], (err) => {
     if (err) {

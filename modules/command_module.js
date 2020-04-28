@@ -3,18 +3,16 @@ const Discord = require('discord.js');
 
 var prefix = "yum!";
 
-// get text after prefix
+// get command after prefix and all args afterwards
 const get_command = function(str) {
-  var patt = new RegExp(prefix + "\s*((.|\n)*)", "im");
+  var patt = new RegExp(prefix + "(.*)\s?(.*)", "i");
   var result = patt.exec(str);
   console.log(result);
-  if (result == null) return null;
-  
-  return result[1].match(/\s*(.*)/, "im");
+  return result;
 };
 exports.get_command = get_command;
 
-// get arguments from command content
+// get arguments from command_content separated by spaces
 const get_args = function(command_content) {
   
 }
@@ -30,34 +28,6 @@ const output_error = function(err) {
 
 /* Commands */
 var commands = {};
-
-
-// ping command
-const ping = function(message, command_content) {
-  // command_content ignore
-  var args = get_args(command_content);
-  
-  // if manage message perm
-  var author_permissions = message.member.permissionsIn(message.channel.id);
-  if (author_permissions.bitfield & 0x00002000 != 0) { // Manage Messages Permission
-    // output all tuple ids
-    dbmodule.get_all((err, rows) => {
-      if (err) {
-        message.reply("ping failed: " + err, output_error);
-        return console.error(err);
-      }
-
-      console.log("Getting all rows:");
-      rows.forEach((row) => {
-        console.log("\t", row.id, "\t", row.text);
-      });
-    });
-  }
-  
-  return message.reply("pong", output_error);
-}
-commands["ping"] = ping;
-commands["boop"] = ping;
 
 
 // displays list of commands
