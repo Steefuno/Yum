@@ -1,3 +1,8 @@
+/*
+  https://www.sqlitetutorial.net/what-is-sqlite/
+  https://github.com/mapbox/node-sqlite3
+*/
+
 const fs = require("fs");
 
 /* init sqlite db */
@@ -140,4 +145,8 @@ exports.set_item = set_item;
 exports.get_inventory = get_inventory;
 exports.set_inventory_item = set_inventory_item;
 
-/* below are dangerous functions that could cause dataloss or exploiting, please be careful upon use */
+
+// ARGS: instruction, args, callback
+exports.run = db.run;
+exports.get = db.get;
+exports.all = db.all;
