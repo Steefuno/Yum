@@ -22,7 +22,7 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
 });
 
 // Temp to clear all data
-db.run(`
+/*db.run(`
   DROP TABLE IF EXISTS balance;
 `, [], output_error);
 db.run(`
@@ -30,7 +30,7 @@ db.run(`
 `, [], output_error);
 db.run(`
   DROP TABLE IF EXISTS inventories;
-`, [], output_error);
+`, [], output_error);*/
 
 
 const init = function() {
@@ -59,24 +59,26 @@ const init = function() {
         return console.error(err);
       }
       
-      
+      // create user inventories table to store items held
+      db.run(`
+        CREATE TABLE IF NOT EXISTS inventories (
+          [user_id] INT8 NOT NULL,
+          [item_id] INT8 NOT NULL,
+          [amount] INT8 DEFAULT 0,
+          PRIMARY KEY (user_id, item_id),
+          FOREIGN KEY (item_id) REFERENCES items (item_id)
+            ON DELETE CASCADE,
+          FOREIGN KEY (user_id) REFERENCES balances (user_id)
+            ON DELETE CASCADE
+        )
+      `, [], (err) => {
+        if (err) {
+          return console.err(err);
+        }
+        return console.log("db initialized.");
+      });
     });
   });
-  
-  
-  // create user inventories table to store items held
-  db.run(`
-    CREATE TABLE IF NOT EXISTS inventories (
-      [user_id] INT8 NOT NULL,
-      [item_id] INT8 NOT NULL,
-      [amount] INT8 DEFAULT 0,
-      PRIMARY KEY (user_id, item_id),
-      FOREIGN KEY (item_id) REFERENCES items (item_id)
-        ON DELETE CASCADE,
-      FOREIGN KEY (user_id) REFERENCES balances (user_id)
-        ON DELETE CASCADE
-    )
-  `, [], output_error);
 }
 init();
 
@@ -127,6 +129,7 @@ const get_inventory = function(user_id, callback) {
     SELECT *
     FROM inventories
     WHERE (user_id = ?)
+    GROUP BY (item_id)
   `, [user_id], callback);
 }
 
@@ -149,40 +152,40 @@ exports.set_inventory_item = set_inventory_item;
 
 setTimeout(() => {
   var UID = 286346660399939588;
+  /*
   set_balance(UID, 5, (err) => {
     if (err) {
       return console.error(err);
     }
     console.log("Set balance to 5.");
-
-    get_balance(UID, (err, row) => {
-      if (err) {
-        return console.error(err);
-      }
-      console.log(row);
-      
-      set_item(1, "Muffin", "Yummy!", (err) => {
-        if (err) {
-          return console.error(err);
-        }
-        console.log("Added muffin.");
-        
-        set_inventory_item(UID, 1, 3, (err) => {
-          if (err) {
-            return console.error(err);
-          }
-          console.log("Given muffen.")
-          
-          get_inventory(UID, (err, rows) => {
-            if (err) {
-              console.error(err);
-            }
-
-            console.log(rows);
-          });
-        })
-      })
-
-    });
   });
+
+  get_balance(UID, (err, row) => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log(row);
+  });
+
+  set_item(1, "Muffin", "Yummy!", (err) => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log("Added muffin.");
+  });
+  */
+  set_inventory_item(UID, 1, 3, (err) => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log("Given muffen.");
+  });
+  /*
+  get_inventory(UID, (err, rows) => {
+    if (err) {
+      return console.error(err);
+    }
+
+    console.log(rows);
+  });*/
 }, 5000);
