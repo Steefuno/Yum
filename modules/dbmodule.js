@@ -16,13 +16,13 @@ const output_error = function(err) {
 // open file
 const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE , (err) => {
   if (err) {
-    console.error(err.message);
+    return console.error(err.message);
   }
   console.log("Connected to the secret service.");
 });
 
 // Temp to clear all data
-/*db.run(`
+db.run(`
   DROP TABLE IF EXISTS balance;
 `, [], output_error);
 db.run(`
@@ -30,7 +30,7 @@ db.run(`
 `, [], output_error);
 db.run(`
   DROP TABLE IF EXISTS inventories;
-`, [], output_error);*/
+`, [], output_error);
 
 
 const init = function() {
@@ -41,17 +41,28 @@ const init = function() {
       [balance] INT8 DEFAULT 0,
       PRIMARY KEY (user_id)
     )
-  `, [], output_error);
+  `, [], (err) => {
+    if (err) {
+      return console.error(err);
+    }
+    
+    // create items
+    db.run(`
+      CREATE TABLE IF NOT EXISTS items (
+        [item_id] INT8 NOT NULL,
+        [name] NVARCHAR[32] NOT NULL,
+        [description] NVARCHAR[128] DEFAULT "",
+        PRIMARY KEY (item_id)
+      )
+    `, [], (err) => {
+      if (err) {
+        return console.error(err);
+      }
+      
+      
+    });
+  });
   
-  // create items
-  db.run(`
-    CREATE TABLE IF NOT EXISTS items (
-      [item_id] INT8 NOT NULL,
-      [name] NVARCHAR[32] NOT NULL,
-      [description] NVARCHAR[128] DEFAULT "",
-      PRIMARY KEY (item_id)
-    )
-  `, [], output_error);
   
   // create user inventories table to store items held
   db.run(`
@@ -174,4 +185,4 @@ setTimeout(() => {
 
     });
   });
-}, 3000);
+}, 5000);
