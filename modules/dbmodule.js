@@ -146,7 +146,7 @@ exports.get_inventory = get_inventory;
 exports.set_inventory_item = set_inventory_item;
 
 
-// ARGS: instruction, args, callback
+// (instruction, args, callback) => {}
 exports.run = db.run;
 exports.get = db.get;
 exports.all = db.all;
