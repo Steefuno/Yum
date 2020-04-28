@@ -35,5 +35,5 @@ const commands = [
 ];
 
 commands.forEach(function(command) {
-  exports.commands[command] = require("./commands/" + command);
+  exports.commands[command] = require("./commands/" + command).func;
 });

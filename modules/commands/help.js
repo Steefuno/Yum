@@ -1,10 +1,17 @@
 const Discord = require("discord.js");
-const bot_globals = require("./../../bot_globals");
+const bot_data = require("./../../bot_data");
 
-const prefix = bot_globals.prefix;
+const prefix = bot_data.prefix;
+
+const output_error = function(err) {
+  if (err) {
+    return console.error(err);
+  }
+  return;
+}
 
 // displays list of commands
-const help = function(message, command_content) {
+exports.func = function(message, command_content) {
   var description = "The prefix is currently " + prefix;
   
   
@@ -23,5 +30,5 @@ const help = function(message, command_content) {
     .setColor(9821183)
   ;
   
-  return message.channel.send("", embed, bot_globals.output_error);
+  return message.channel.send("", embed, output_error);
 }
