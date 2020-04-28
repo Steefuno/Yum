@@ -5,6 +5,14 @@ const file = "./.data/sqlite.db";
 const exists = fs.existsSync(file);
 const sqlite3 = require("sqlite3").verbose();
 
+// output error if exists
+const output_error = function(err) {
+  if (err) {
+    return console.error(err);
+  }
+  return;
+}
+
 // open file
 const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE , (err) => {
   if (err) {
@@ -13,34 +21,33 @@ const db = new sqlite3.Database(file, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREA
   console.log("Connected to the secret service.");
 });
 
-// create balances table to store amount of money users have
-db.run(`
-    CREATE TABLE
-    IF NOT EXISTS
-    balances(
-      [id] INT8 NOT NULL PRIMARY KEY UNIQUE,
-      [balance] INT8 DEFAULT 0,
-    )
-  `, [], (err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-  }
-);
-db.run(`
-    CREATE TABLE
-    IF NOT EXISTS
-    inventories(
-      [id] VARCHAR[]
-    )
-  `, [], (err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-  }
-);
 
-/* module functions */
+const init = function() {
+  // create balances table to store amount of money users have
+  db.run(`
+    CREATE TABLE IF NOT EXISTS balances (
+      [user_id] INT8 NOT NULL PRIMARY KEY UNIQUE,
+      [balance] INT8 DEFAULT 0
+    )
+  `, [], output_error);
+  
+  // create user inventories table to store items held
+  db.run(`
+    CREATE TABLE IF NOT EXISTS inventories (
+      [user_id] INT8 NOT NULL,
+      [item_id] INT8 NOT NULL,
+      [amount] INT8 DEFAULT 0
+    )
+  `, [], output_error);
+  db.run(`
+    ALTER TABLE inventories
+      ADD CONSTRAINT PK_USER_ITEM PRIMARY KEY (user_id, item_id);
+  `, [], output_error);
+}
+init();
+
+
+/* db functions */
 // note, each is asynchronous, so use a callback function
 
 // get data from info table

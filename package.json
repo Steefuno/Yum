@@ -1,7 +1,7 @@
 {
-  "name": "happy-dreams-bot",
+  "name": "discord-yum",
   "version": "0.0.1",
-  "description": "Discord bot that handles announcements and commands for the Happy Dreams Discord server.",
+  "description": "Discord game for buying and selling in game foods.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -15,7 +15,7 @@
     "node": "12.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/happy-dreams-bot"
+    "url": "https://glitch.com/edit/#!/discord-yum"
   },
   "license": "MIT",
   "keywords": [
