@@ -74,6 +74,24 @@ commands["ping"] = ping;
 commands["boop"] = ping;
 
 
+// displays list of commands
+const help = function(message, command_content) {
+  var embed = new Discord.MessageEmbed()
+    .setTitle("Help Menu")
+    .setDescription(`
+      The prefix is currently "${prefix}"
+      **${prefix} help** - 
+    `)
+    .setFooter(message.author.username + "#" + message.author.discriminator)
+    .setColor(9821183)
+  ;
+  
+  return message.channel.send("", embed, output_error);
+}
+commands["help"] = help;
+commands["?"] = help;
+
+
 // get text using an id from database
 const get_info = function(message, command_content) {
   // command_content = "info id"
@@ -170,7 +188,6 @@ const say_in = function(message, command_content) {
     return message.reply("haha, you can't do that.", output_error);
   }
   
-  console.log("Saying in", mentioned_channel.name, "\t", text);
   var embed = new Discord.MessageEmbed()
     .setDescription(text)
     .setFooter(message.author.username + "#" + message.author.discriminator)
