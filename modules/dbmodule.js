@@ -26,8 +26,19 @@ const init = function() {
   // create balances table to store amount of money users have
   db.run(`
     CREATE TABLE IF NOT EXISTS balances (
-      [user_id] INT8 NOT NULL PRIMARY KEY UNIQUE,
-      [balance] INT8 DEFAULT 0
+      [user_id] INT8 NOT NULL UNIQUE,
+      [balance] INT8 DEFAULT 0,
+      PRIMARY KEY (user_id)
+    )
+  `, [], output_error);
+  
+  // create items
+  db.run(`
+    CREATE TABLE IF NOT EXISTS items (
+      [item_id] INT8 NOT NULL UNIQUE,
+      [name] NVARCHAR[32] NOT NULL,
+      [description] NVARCHAR[128] DEFAULT "",
+      PRIMARY KEY (item_id)
     )
   `, [], output_error);
   
@@ -36,12 +47,13 @@ const init = function() {
     CREATE TABLE IF NOT EXISTS inventories (
       [user_id] INT8 NOT NULL,
       [item_id] INT8 NOT NULL,
-      [amount] INT8 DEFAULT 0
+      [amount] INT8 DEFAULT 0,
+      PRIMARY KEY (user_id, item_id),
+      FOREIGN KEY (item_id) REFERENCES items (item_id)
+        ON DELETE CASCADE,
+      FOREIGN KEY (user_id) REFERENCES balances (user_id)
+        ON DELETE CASCADE
     )
-  `, [], output_error);
-  db.run(`
-    ALTER TABLE inventories
-      ADD CONSTRAINT PK_USER_ITEM PRIMARY KEY (user_id, item_id);
   `, [], output_error);
 }
 init();
@@ -54,7 +66,7 @@ init();
 exports.get_info = function(id, callback) {
   return db.get(`
       SELECT (id, text)
-      FROM ${info_table_name}
+      FROM 
       WHERE id = ?
     `, [id], callback
   );
