@@ -27,7 +27,7 @@ const init = function() {
   db.run(`
     CREATE TABLE IF NOT EXISTS balances (
       [user_id] INT8 NOT NULL UNIQUE,
-      [balance] INT8 DEFAULT 0,
+      [balance] INT8 DEFAULT 0 ON CONFLICT REPLACE,
       PRIMARY KEY (user_id)
     )
   `, [], output_error);
@@ -36,8 +36,8 @@ const init = function() {
   db.run(`
     CREATE TABLE IF NOT EXISTS items (
       [item_id] INT8 NOT NULL UNIQUE,
-      [name] NVARCHAR[32] NOT NULL,
-      [description] NVARCHAR[128] DEFAULT "",
+      [name] NVARCHAR[32] NOT NULL ON CONFLICT REPLACE,
+      [description] NVARCHAR[128] DEFAULT "" ON CONFLICT REPLACE,
       PRIMARY KEY (item_id)
     )
   `, [], output_error);
@@ -47,7 +47,7 @@ const init = function() {
     CREATE TABLE IF NOT EXISTS inventories (
       [user_id] INT8 NOT NULL,
       [item_id] INT8 NOT NULL,
-      [amount] INT8 DEFAULT 0,
+      [amount] INT8 DEFAULT 0 ON CONFLICT REPLACE,
       PRIMARY KEY (user_id, item_id),
       FOREIGN KEY (item_id) REFERENCES items (item_id)
         ON DELETE CASCADE,
@@ -75,21 +75,30 @@ exports.get_balance = get_balance;
 // set a player's balance
 const set_balance = function(user_id, value, callback) {
   return db.run(`
-    INSERT OR REPLACE INTO balances (user_id, balance)
+    INSERT INTO balances (user_id, balance)
     VALUES (?, ?)
-  `, [value, user_id], callback);
+  `, [user_id, value], callback);
 }
 exports.set_balance = set_balance;
 
-// add info to table
-exports.add_info = function(id, text, callback) {
-  return db.run(`
-      INSERT OR REPLACE INTO info
-      VALUES
-        (?, ?)
-    `, [id, text], callback
-  );
-};
+// gets data on an item
+const get_item_info = function(item_id, callback) {
+  return db.get(`
+    SELECT (item_id, name, description)
+    FROM items
+    WHERE item_id = ?
+  `, [item_id], callback);
+}
+exports.get_item_info = get_item_info;
+
+// gets a player's inventory
+const get_inventory = function(user_id, callback) {
+  return db.all(`
+    SELECT (user_id, item_id, amount)
+    FROM inventories
+    WHERE user_id = ?
+  `, [user_id], callback);
+}
 
 // remove info using an id from table
 exports.remove_info = function(id, callback) {
