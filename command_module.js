@@ -152,16 +152,28 @@ commands["delete"] = remove_info;
 // Say an embeded message in a channel
 const say_in = function(message, command_content) {
   // command_content = "<#channel mention>  message"
-  var mentioned_channel = message.mentions.channel.first();
-  console.log();
+  var command_data = command_content.match(/[^>]*>\s*(.*)/);
+  if (command_data == null) {
+    return message.reply("your message is a bit weird, please refer to the help command.", output_error);
+  }
+  var text = command_data[1];
+  
+  var mentioned_channel = message.mentions.channels.first();
+  if (mentioned_channel == null) {
+    return message.reply("your message is a bit weird, please refer to the help command.", output_error);
+  }
+  
+  console.log("Attempting to say in", mentioned_channel.name, "\t", text);
   
   // Get if user has access
   var author_permissions = message.member.permissionsIn(message.channel.id);
   if (author_permissions.bitfield & 0x00002000 == 0) { // Manage Messages Permission
-    return message.reply("haha, you can't do that.");
+    return message.reply("haha, you can't do that.", output_error);
   }
   
   
 }
+commands["say"] = say_in;
+commands["announce"] = say_in;
 
 exports.commands = commands;
