@@ -62,15 +62,24 @@ init();
 /* db functions */
 // note, each is asynchronous, so use a callback function
 
-// get data from info table
-exports.get_info = function(id, callback) {
+// get a player's balance
+const get_balance = function(user_id, callback) {
   return db.get(`
-      SELECT (id, text)
-      FROM 
-      WHERE id = ?
-    `, [id], callback
-  );
-};
+    SELECT (balance)
+    FROM balances
+    WHERE (id = ?)
+  `, [user_id], callback);
+}
+exports.get_balance = get_balance;
+
+// set a player's balance
+const set_balance = function(user_id, value, callback) {
+  return db.run(`
+    INSERT OR REPLACE INTO balances (user_id, balance)
+    VALUES (?, ?)
+  `, [value, user_id], callback);
+}
+exports.set_balance = set_balance;
 
 // add info to table
 exports.add_info = function(id, text, callback) {
