@@ -95,7 +95,7 @@ const get_item_info = function(item_id, callback) {
   return db.get(`
     SELECT (item_id, name, description)
     FROM items
-    WHERE item_id = ?
+    WHERE (item_id = ?)
   `, [item_id], callback);
 }
 
@@ -104,7 +104,7 @@ const get_inventory = function(user_id, callback) {
   return db.all(`
     SELECT (user_id, item_id, amount)
     FROM inventories
-    WHERE user_id = ?
+    WHERE (user_id = ?)
   `, [user_id], callback);
 }
 
@@ -136,6 +136,13 @@ set_balance(UID, 5, (err) => {
       console.error(err);
     }
     console.log(row);
+    
+    get_inventory(UID, (err, rows) => {
+      if (err) {
+        console.error(err);
+      }
+
+      console.log(rows);
+    });
   });
 });
-
