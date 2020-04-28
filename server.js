@@ -10,19 +10,27 @@ const handleMessage = function(message) {
   
   // Check if message is in command format
   var command_data = command_module.get_command(message.content);
-  if (command_data == null) return;
-  
-  // Get command eg. help
-  var command = command_data[1];
-  
-  // Get command function eg. help()
-  var func = command_module.commands[command_data[1].toLowerCase()]
-  if (func == null) {
-    return message.reply("haha, I can't do that. Use the help command for more info.");
+  if (command_data != null) {
+    // Handle a command
+    // Get command eg. help
+    var command = command_data[1];
+
+    // Get command function eg. help()
+    var func = command_module.commands[command_data[1].toLowerCase()]
+    if (func == null) {
+      return message.reply("haha, I can't do that. Use the help command for more info.");
+    }
+
+    // Run Command
+    return func(message, command_data[2]);
+  } else {
+    // Check if bot has been mentioned
+    var mention = message.mentions.users.first();
+    if (mention && mention.equals(client.user)) {
+      // Handle the ping by calling help function
+      return command_module.commands["help"](message, null);
+    }
   }
-    
-  // Run Command
-  return func(message, command_data[2]);
 };
 
 client.on("message", handleMessage);
