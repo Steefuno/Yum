@@ -1,9 +1,9 @@
 const dbmodule = require("./dbmodule");
 const Discord = require("discord.js")
-const bot_globals = require("./bot_globals");
+const bot_data = require("./bot_data");
 const fs = require("fs")
 
-var prefix = bot_globals.prefix;
+var prefix = bot_data.prefix;
 
 // get command after prefix and all args afterwards
 const get_command = function(str) {
@@ -29,13 +29,11 @@ const get_args = function(command_content) {
 
 
 /* Commands */
-var commands = {};
+exports.commands = {};
+const commands = [
+  "help"
+];
 
-var command_files = fs.readdirSync('./commands/help');
-console.log(command_files);
-var i;
-for (i=0; i<command_files.length; i++) {
-  
-}
-
-exports.commands = commands;
+commands.forEach(function(command) {
+  exports.commands[command] = require("./commands/" + command);
+});
