@@ -81,7 +81,6 @@ const get_balance = function(user_id, callback) {
     WHERE (id = ?)
   `, [user_id], callback);
 }
-exports.get_balance = get_balance;
 
 // set a player's balance
 const set_balance = function(user_id, value, callback) {
@@ -89,11 +88,8 @@ const set_balance = function(user_id, value, callback) {
     INSERT OR REPLACE
     INTO balances (user_id, balance)
     VALUES (?, ?)
-    
   `, [user_id, value], callback);
 }
-exports.set_balance = set_balance;
-
 // gets data on an item
 const get_item_info = function(item_id, callback) {
   return db.get(`
@@ -102,7 +98,6 @@ const get_item_info = function(item_id, callback) {
     WHERE item_id = ?
   `, [item_id], callback);
 }
-exports.get_item_info = get_item_info;
 
 // gets a player's inventory
 const get_inventory = function(user_id, callback) {
@@ -112,25 +107,34 @@ const get_inventory = function(user_id, callback) {
     WHERE user_id = ?
   `, [user_id], callback);
 }
-exports.get_inventory = get_inventory;
 
 // sets data for an inventory item for one player
 const set_inventory_item = function(user_id, item_id, amount, callback) {
   return db.run(`
     INSERT OR REPLACE
-    INTO inventories
-    WHERE (
-      user_id = ?
-      item_id = ?
-    )
-  `)
+    INTO inventories (user_id, item_id, amount)
+    VALUES (?, ?, ?)
+  ` [user_id, item_id, amount], callback);
 }
 
-// get all tuples in info
-exports.get_all = function(callback) {
-  return db.all(`
-      SELECT *
-      FROM ${info_table_name}
-    `, [], callback
-  )
-}
+
+exports.get_balance = get_balance;
+exports.set_balance = set_balance;
+exports.get_item_info = get_item_info;
+exports.get_inventory = get_inventory;
+exports.set_inventory_item = set_inventory_item;
+
+var UID = 286346660399939588;
+set_balance(UID, 5, (err) => {
+  if (err) {
+    console.error(err);
+  }
+  console.log("Set balance to 5");
+  
+  get_balance(UID, (err, row) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(row);
+  })
+})
