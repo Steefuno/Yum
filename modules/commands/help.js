@@ -1,7 +1,7 @@
-const bot_data = require("./../../bot_data");
 const Discord = require("discord.js");
+const bot_globals = require("./../../bot_globals");
 
-const prefix = bot_data.prefix;
+const prefix = bot_globals.prefix;
 
 // displays list of commands
 const help = function(message, command_content) {
@@ -23,5 +23,5 @@ const help = function(message, command_content) {
     .setColor(9821183)
   ;
   
-  return message.channel.send("", embed, output_error);
+  return message.channel.send("", embed, bot_globals.output_error);
 }

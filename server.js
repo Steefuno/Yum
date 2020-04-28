@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
-const bot_data = require("./bot_data");
+const bot_globals = require("./modules/bot_globals");
 const command_module = require("./modules/command_module");
 const keep_alive = require("./modules/keep_alive");
+
+const client = new Discord.Client();
 
 const handleMessage = function(message) {
   // Ignore bot messages
@@ -18,7 +19,7 @@ const handleMessage = function(message) {
     // Get command function eg. help()
     var func = command_module.commands[command_data[1].toLowerCase()]
     if (func == null) {
-      return message.reply("haha, I can't do that. Use the help command for more info.");
+      return message.reply("haha, I can't do that. Use the help command for more info.", bot_globals.output_error);
     }
 
     // Run Command
@@ -33,10 +34,11 @@ const handleMessage = function(message) {
   }
 };
 
-client.on("message", handleMessage);
+// Setup events
 client.on("ready", () => {
   console.log("Joined the fray.");
 });
-client.login(bot_data.token, (err) => {
+client.on("message", handleMessage);
+client.login(bot_globals.token, (err) => {
   console.error(err);
 });
