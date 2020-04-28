@@ -40,8 +40,6 @@ client.login(bot_data.token, (err) => {
   console.error(err);
 });
 
-
-/* Keep alive */
 app.get("/", (request, response) => {
   console.log(Date.now() + " Ping Received");
   response.sendStatus(200);
