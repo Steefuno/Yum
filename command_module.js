@@ -1,7 +1,7 @@
 const dbmodule = require("./dbmodule");
 const Discord = require('discord.js');
 
-var prefix = "hey steve";
+var prefix = ".happy";
 
 // get text after prefix
 const get_command = function(str) {
@@ -171,15 +171,13 @@ const say_in = function(message, command_content) {
   }
   
   console.log("Saying in", mentioned_channel.name, "\t", text);
-  var embed = new Discord.MessageEmbed();
-  return mentioned_channel.send('', {
-      embed: {
-        content: text,
-        author: message.author.name,
-        color: 6619030
-      }
-    }, output_error
-  );
+  var embed = new Discord.MessageEmbed()
+    .setDescription(text)
+    .setFooter(message.author.username + "#" + message.author.discriminator)
+    .setColor(9821183)
+  ;
+  
+  return mentioned_channel.send("", embed, output_error);
 }
 commands["say"] = say_in;
 commands["announce"] = say_in;
