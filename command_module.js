@@ -152,8 +152,8 @@ commands["delete"] = remove_info;
 // Say an embeded message in a channel
 const say_in = function(message, command_content) {
   // command_content = "<#channel mention>  message"
-  var mentioned_channel = message.mentions.
-  console.log(args);
+  var mentioned_channel = message.mentions.channel.first();
+  console.log();
   
   // Get if user has access
   var author_permissions = message.member.permissionsIn(message.channel.id);
