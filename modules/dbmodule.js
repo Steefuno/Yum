@@ -149,4 +149,3 @@ exports.set_inventory_item = set_inventory_item;
 // (instruction, args, callback) => {}
 exports.run = db.run;
 exports.get = db.get;
-exports.all = db.all;
