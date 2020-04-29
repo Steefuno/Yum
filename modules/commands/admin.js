@@ -11,8 +11,10 @@ const output_error = function(err) {
   return;
 }
 
+var commands = [];
+
 // Sends an embed message of commands for admins
-const show_admin_help = function(message) {
+const show_admin_help = function(message, argument_data) {
   var embed = new Discord.MessageEmbed()
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
@@ -27,21 +29,39 @@ const show_admin_help = function(message) {
   ;
   return message.channel.send("", embed, output_error);
 }
+commands.show_admin_help = show_admin_help;
+
+// runs a database instruction
+const db_run = function(message, argument_data) {
+  
+}
 
 // displays list of commands
 exports.func = function(message, command_content) {
   // check usage permission
   
   
-  var patt = /(\S+)\s?/g;
-  var argument_data = [...command_content[2].matchAll(patt)];
+  // run help function on no admin command
+  if (command_content[2].length == 0) {
+    return commands.show_admin_help(message);
+  }
+  
+  var patt = /(\S+)\s?(.*)/g;
+  var argument_data = command_content[2].match(patt);
   console.log(argument_data);
   
-  if (argument_data.length == 0) {
-    return show_admin_help(message);
-  } else if (argument_data[0] == ) {
+  // if 
+  if (argument_data == null) {
     
   }
+  
+  // find and run admin command
+  var func = commands[argument_data[0][1].toLowerCase()];
+  if (func != null) {
+    return func(message, argument_data);
+  }
+  
+  return commands.show_admin_help(message, argument_data);
 }
 
 exports.aliases = [
