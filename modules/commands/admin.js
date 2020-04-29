@@ -11,6 +11,16 @@ const output_error = function(err) {
   return;
 }
 
+const is_admin = function(user) {
+  var i;
+  for (i=0; i<bot_data.admins.length; i++) {
+    if (bot_data.admins[i] == user.id) {
+      return true;
+    }
+  }
+  return false;
+}
+
 var commands = [];
 
 // Sends an embed message of commands for admins
@@ -19,13 +29,13 @@ const show_admin_help = function(message, args) {
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
     .setTitle("Admin Menu")
-    .setDescription(`
-      The prefix is currently "${prefix} admin"
-      **${prefix}admin** - opens this help menu
-      **${prefix}admin run INSTRUCTION** - run a database instruction
-      **${prefix}admin get INSTRUCTION** - outputs a database instruction
-      **${prefix}admin set_bal USERMENTION AMOUNT** - sets a users balance
-    `)
+    .setDescription("\
+The prefix is currently **${prefix} admin**\n\
+${prefix}admin - opens this help menu\n\
+${prefix}admin run INSTRUCTION - run a database instruction\n\
+${prefix}admin get INSTRUCTION - outputs a database instruction\n\
+${prefix}admin set_bal USERMENTION AMOUNT - sets a users balance\
+    ")
   ;
   return message.channel.send("", embed, output_error);
 }
@@ -89,7 +99,7 @@ commands.set_bal = set_bal;
 // displays list of commands
 exports.func = function(message, command_content) {
   // check usage permission
-  
+  if (!is_admin(message.author)) return;
   
   // run help function on no admin command
   if (command_content[2].length == 0) {

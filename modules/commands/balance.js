@@ -39,5 +39,6 @@ exports.func = function(message, command_content) {
 exports.aliases = [
   "balance",
   "bal",
-  "money"
+  "money",
+  "monies"
 ];
