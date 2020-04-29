@@ -46,13 +46,16 @@ const get_catalog = function(callback) {
     var catalog = [];
     var i;
     for (i=0; i<bot_data.num_catalog_items; i++) {
+      if (items.length == 0) break; // stop on no items
       var item_num = items.length * Math.floor(rng()); // random item
-      // loop to make sure no duplicates?
+      // pull to make sure no duplicates
       
       var item_id = items[item_num].item_id;
       var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
       catalog.push([item_id, price]);
     }
+    
+    callback(catalog);
   });
 }
 exports.get_catalog = get_catalog;
@@ -77,7 +80,7 @@ exports.help = function(message, command_content) {
     .setColor(6611350)
   ;
   
-  get_catalog(); 
+  get_catalog((catalog) => console.log); 
   return message.channel.send("", embed, output_error);
 }
 
