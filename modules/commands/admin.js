@@ -2,7 +2,13 @@ const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
 const dbmodule = require("./../dbmodule");
 
-const admin_commands = 
+const modules = [
+  "help",
+  "run",
+  "get",
+  "all",
+  "set_bal"
+];
 
 const prefix = bot_data.prefix;
 
@@ -25,23 +31,16 @@ const is_admin = function(user) {
 
 var commands = [];
 
-// Sends an embed message of commands for admins
-const show_admin_help = function(message, args) {
-  var embed = new Discord.MessageEmbed()
-    .setFooter(message.author.username + "#" + message.author.discriminator)
-    .setColor(6611350)
-    .setTitle("Admin Menu")
-    .setDescription("\
-      The prefix is currently **" + prefix + " admin**\n\
-      " + prefix + " admin - opens this help menu\n\
-      " + prefix + " admin run INSTRUCTION - run a database instruction\n\
-      " + prefix + " admin get INSTRUCTION - outputs a database instruction\n\
-      " + prefix + " admin set_bal USERMENTION AMOUNT - sets a users balance\
-    ")
-  ;
-  return message.channel.send("", embed, output_error);
-}
-commands.help = show_admin_help;
+// Loop through all command modules
+modules.forEach(function(command) {
+  var command_data = require("./modules/admin/" + command);
+  var command_func = command_data.func;
+  
+  // Loop through all keywords used to call command
+  commands[command] = command_func;
+});
+
+
 
 // runs a database instruction
 const db_run = function(message, args) {
