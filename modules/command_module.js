@@ -9,25 +9,11 @@ exports.commands = {};
 
 // get command after prefix and all args afterwards
 const get_command = function(str) {
-  var patt = new RegExp(prefix + "([ ]?)([\S]*)([ ]?)([.]*)", "i");
+  var patt = new RegExp(prefix + "\\s?(\\S*)\\s?(.*)", "i");
   var result = patt.exec(str);
-  console.log(result);
   return result;
 };
 exports.get_command = get_command;
-
-// get arguments from command_content separated by spaces
-const get_args = function(command_content) {
-  var patt = /(\S*)\s?/g;
-  var matches = command_content.matchAll(patt);
-  
-  var result = [];
-  var i;
-  for (i=0; i<result.length; i++) {
-    result.push(matches[i][1])
-  }
-  return result;
-}
 
 // used to log commands used and by whom
 const log_usage = function(message, command, content) {
@@ -54,13 +40,12 @@ exports.handle_command = function(message, command_data) {
 
   // Get command function eg. help()
   var func = exports.commands[command_data[1].toLowerCase()];
-  log_usage(message, command_data[1], command_data[2]);
   if (func == null) {
     return message.reply("haha, I can't do that. Use the help command for more info.", output_error);
   }
 
   // Run Command
-  return func(message, command_data[2]);
+  return func(message, command_data);
 }
 
 /* Commands */

@@ -15,11 +15,24 @@ const output_error = function(err) {
 exports.func = function(message, command_content) {
   // check usage permission
   
+  var embed = new Discord.MessageEmbed()
+    .setTitle("Admin Menu")
+    .setDescription(`
+    The prefix is currently "${prefix} admin"
+    **${prefix}admin** - opens this help menu
+    **${prefix}admin run INSTRUCTION DB_ARGS** - run a database instruction
+    **${prefix}
+    `)
+    .setFooter(message.author.username + "#" + message.author.discriminator)
+    .setColor(6611350)
+  ;
   
-  var patt = /(\S*)\s(.*)/;
-  var argument_data = command_content.match(patt);
+  var patt = /(\S*)\s?/g;
+  var argument_data = command_content[2].matchAll(patt);
   if (argument_data == null) {
-    
+
+  
+  return message.channel.send("", embed, output_error);
   }
 }
 
