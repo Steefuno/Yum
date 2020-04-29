@@ -9,7 +9,8 @@ const modules = [
   "help",
   "balance",
   "admin",
-  "credits"
+  "credits",
+  "market"
 ];
 exports.commands = {};
 
