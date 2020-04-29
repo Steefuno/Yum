@@ -16,8 +16,6 @@ const output_error = function(err) {
   return;
 }
 
-const get_cata
-
 const display_commands = function(message, command_content) {
   var embed = new Discord.MessageEmbed()
     .setTitle("Help Market")
@@ -32,6 +30,20 @@ const display_commands = function(message, command_content) {
 
   return message.channel.send("", embed, output_error);
 }
+
+const get_catalog = function(code_override) {
+  var code;
+  if (code_override == 0) {
+    code = Date.now() / 1000 / 60 / 60 / 12; --
+  } else {
+    code = code_override;
+  }
+  
+  
+
+  return t;
+}
+exports.get_catalog = get_catalog;
 
 exports.func = function(message, command_content) {
   if (command_content[2].length == 0) {
