@@ -60,7 +60,7 @@ commands.get = db_get;
 
 // sets a user's balance
 const set_bal = function(message, args) {
-  var patt = /[^0-9]*([0-9]*)[^0-9]*/;
+  var patt = /[^>]*[^0-9]*([0-9]*)[^0-9]*/;
   var command_content = args.match(patt);
   if (command_content == null) {
     return message.reply("try again, no value found.");
@@ -75,6 +75,7 @@ const set_bal = function(message, args) {
   if (target_user == null) {
     return message.reply("try again, no mentioned user found.");
   }
+  target_user = target_user.user;
   
   return dbmodule.set_balance(target_user.id, new_bal, (err) => {
     if (err) {
@@ -114,6 +115,5 @@ exports.func = function(message, command_content) {
 }
 
 exports.aliases = [
-  "admin",
-  "hacks",
+  "admin"
 ];

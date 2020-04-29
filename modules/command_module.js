@@ -54,7 +54,8 @@ exports.handle_command = function(message, command_data) {
 const files = [
   "help",
   "balance",
-  "admin"
+  "admin",
+  "credits"
 ];
 
 // Loop through all command modules
