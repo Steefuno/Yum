@@ -46,10 +46,12 @@ const get_catalog = function(callback) {
     var catalog = [];
     var i;
     for (i=0; i<bot_data.num_catalog_items; i++) {
-      catalog.push([
-        items.length*Math.floor(rng()), // picks random item
-        
-      ]);
+      var item_num = items.length * Math.floor(rng()); // random item
+      // loop to make sure no duplicates?
+      
+      var item_id = items[item_num].item_id;
+      var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
+      catalog.push([item_id, price]);
     }
   });
 }
