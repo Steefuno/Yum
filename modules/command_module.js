@@ -9,7 +9,7 @@ exports.commands = {};
 
 // get command after prefix and all args afterwards
 const get_command = function(str) {
-  var patt = new RegExp(prefix + "[\]*([]*)\s*([.]*)", "i");
+  var patt = new RegExp(prefix + "\s*([\S]*)\s*([.]*)", "i");
   var result = patt.exec(str);
   return result;
 };
