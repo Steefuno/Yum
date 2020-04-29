@@ -8,7 +8,6 @@ const output_error = function(err) {
   return;
 }
 
-
 // sets a user's balance
 const set_bal = function(message, args) {
   var patt = /[^>]*[^0-9]*([0-9]*)[^0-9]*/;

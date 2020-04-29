@@ -63,7 +63,7 @@ exports.func = function(message, command_content) {
   }
   
   // help on invalid command
-  return show_admin_help(message, command_content[2]);
+  return commands.help(message, command_content[2]);
 }
 
 exports.aliases = [
