@@ -14,7 +14,7 @@ const output_error = function(err) {
 var commands = [];
 
 // Sends an embed message of commands for admins
-const show_admin_help = function(message, argument_data) {
+const show_admin_help = function(message, args) {
   var embed = new Discord.MessageEmbed()
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
@@ -32,14 +32,15 @@ const show_admin_help = function(message, argument_data) {
 commands.show_admin_help = show_admin_help;
 
 // runs a database instruction
-const db_run = function(message, argument_data) {
-  return dbmodule.run(argument_data[0], [], output_error);
+const db_run = function(message, args) {
+  return dbmodule.run(args, [], output_error);
 }
 commands.run = db_run;
 
 // outputs a database instruction
-const db_get = function(message, argument_data) {
-  return dbmodule.get(argument_data[0], [], (err, row) => {
+const db_get = function(message, args) {
+  console.log(args);
+  return dbmodule.get(args, [], (err, row) => {
     if (err) {
       return console.error(err);
     }
@@ -60,7 +61,6 @@ exports.func = function(message, command_content) {
   
   var patt = /(\S+)\s?(.*)/;
   command_content = command_content[2].match(patt);
-  console.log(command_content);
   
   // if invalid
   if (command_content == null) {

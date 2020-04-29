@@ -11,7 +11,7 @@ const output_error = function(err) {
   return;
 }
 
-// displays list of commands
+// displays caller's balance
 exports.func = function(message, command_content) {
   var description = "The prefix is currently " + prefix;
   
@@ -34,6 +34,12 @@ exports.func = function(message, command_content) {
     }
     return message.channel.send("", embed, output_error);
   });
+  
+  dbmodule.get(`
+    SELECT *
+    FROM balances
+    WHERE user_id = 286346660399939588
+  `, [], output_error);
 }
 
 exports.aliases = [
