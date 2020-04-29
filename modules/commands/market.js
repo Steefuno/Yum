@@ -36,9 +36,11 @@ const get_catalog = function() {
   var seed = Date.now() / 1000 / 60 / 60 / 24;
   var rng = new Math.randomseed(seed);
   
-  var catalog = [
-    
-  ];
+  var catalog = [];
+  var i;
+  for (i=0; i<bot_data.num_catalog_items; i++) {
+    console.log(rng());
+  }
 }
 exports.get_catalog = get_catalog;
 
@@ -62,6 +64,7 @@ exports.help = function(message, command_content) {
     .setColor(6611350)
   ;
   
+  get_catalog();
   return message.channel.send("", embed, output_error);
 }
 
