@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
+const dbmodule = require("./../dbmodule");
 const command_module = require("./../command_module.js");
 const seed_random = require("seedrandom");
 
@@ -34,12 +35,20 @@ const display_commands = function(message, command_content) {
   return message.channel.send("", embed, output_error);
 }
 
-const get_catalog = function() {
+const get_catalog = function(callback) {
   // Get daily seed
   var seed = Math.floor(Date.now() / 1000 / 60 / 60 / 24) + catalog_magic_num;
   var rng = seed_random(seed);
   
-  
+  return dbmodule.get_catalog_items((err, items) => {
+    var catalog = [];
+    var i;
+    for (i=0; i<bot_data.num_catalog_items; i++) {
+      catalog.push(
+      
+      );
+    }
+  });
   
   var catalog = [];
   var i;
