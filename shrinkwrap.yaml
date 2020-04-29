@@ -1,6 +1,7 @@
 dependencies:
   discord.js: 12.2.0
   express: 4.17.1
+  seedrandom: 3.0.5
   sqlite3: 4.2.0
 packages:
   /@discordjs/collection/0.1.5:
@@ -754,6 +755,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+  /seedrandom/3.0.5:
+    dev: false
+    resolution:
+      integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==
   /semver/5.7.1:
     dev: false
     hasBin: true
@@ -951,4 +956,5 @@ shrinkwrapVersion: 3
 specifiers:
   discord.js: ^12.2.0
   express: ^4.17.1
+  seedrandom: ^3.0.5
   sqlite3: ^4.2.0

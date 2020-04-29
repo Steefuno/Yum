@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
 const command_module = require("./../command_module.js");
+const seed_random = require("seedrandom.js");
 
 const prefix = bot_data.prefix;
 const commands = [
@@ -8,6 +9,9 @@ const commands = [
   "buy",
   "sell"
 ];
+
+var current_seed = Date.now() / 1000 / 60 / 60 / 24; // Code changes every 24 hours
+var rng = new Math.randomseed(current_seed);
 
 const output_error = function(err) {
   if (err) {
@@ -31,12 +35,11 @@ const display_commands = function(message, command_content) {
   return message.channel.send("", embed, output_error);
 }
 
-const get_catalog = function(code_override) {
-  var code;
-  if (code_override == 0) {
-    code = Date.now() / 1000 / 60 / 60 / 24; // code changes every 24 hours
-  } else {
-    code = code_override;
+const get_catalog = function() {
+  var new_seed = Date.now() / 1000 / 60 / 60 / 24;
+  if (new_seed != current_seed) {
+    current_seed = new_seed;
+    rng = new Math.randomseed(current_seed);
   }
   
   var catalog = {
