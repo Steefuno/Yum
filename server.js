@@ -12,7 +12,7 @@ const output_error = function(err) {
   return;
 }
 
-const handleMessage = function(message) {
+const handle_message = function(message) {
   // Ignore bot messages
   if (message.author.bot) return;
   
@@ -28,12 +28,19 @@ const handleMessage = function(message) {
       // Handle the ping by calling help function
       return command_module.commands["help"](message, null);
     }
+    
+    // Probably just a misc chat message ¯\_(ツ)_/¯
   }
 };
+
+const handle_error = function(err) {
+  
+}
 
 // Setup events
 client.on("ready", () => {
   console.log("Joined the fray.");
 });
-client.on("message", handleMessage);
+client.on("error", handle_error);
+client.on("message", handle_message);
 client.login(bot_data.token, output_error);
