@@ -45,7 +45,7 @@ exports.func = function(message, command_content) {
   
   // run help function on no admin command
   if (command_content[2].length == 0) {
-    return show_admin_help(message);
+    return commands.help(message);
   }
   
   var patt = /(\S+)\s?(.*)/;
@@ -65,6 +65,8 @@ exports.func = function(message, command_content) {
   // help on invalid command
   return commands.help(message, command_content[2]);
 }
+
+exports.help = function(message, command_content) {}
 
 exports.aliases = [
   "admin"

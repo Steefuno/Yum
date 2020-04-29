@@ -32,7 +32,7 @@ exports.func = function(message, command_content) {
 exports.help = function(message, command_content) {
   var embed = new Discord.MessageEmbed()
     .setTitle("Help Credits")
-    .setDescription("This is the command to open the credits and list whomever helped, there's not much to say about this.")
+    .setDescription("This is the command to open the credits and list whomever helped developed this project.")
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
   ;
