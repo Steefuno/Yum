@@ -22,11 +22,17 @@ exports.func = function(message, command_content) {
   ;
   
   dbmodule.get_balance(message.author.id, (err, row) => {
+    if (err) {
+      return console.error(err);
+    }
     
+    if (row) {
+      embed = embed.setDescription("You have " + row.balance + " " + bot_data.currency); 
+    } else {
+      embed = embed.setDescription("You have 0 " + bot_data.currency);
+    }
+    return message.channel.send("", embed, output_error);
   });
-  
-  
-  return message.channel.send("", embed, output_error);
 }
 
 exports.aliases = [
