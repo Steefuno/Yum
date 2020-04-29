@@ -3,6 +3,8 @@ const bot_data = require("./../bot_data");
 const command_module = require("./../command_module.js");
 const seed_random = require("seedrandom");
 
+const catalog_magic_num = 0; // Add to random number seed to get catalog
+
 const prefix = bot_data.prefix;
 const commands = [
   "view",
@@ -33,14 +35,21 @@ const display_commands = function(message, command_content) {
 }
 
 const get_catalog = function() {
-  var seed = Date.now() / 1000 / 60 / 60 / 24;
+  // Get daily seed
+  var seed = Math.floor(Date.now() / 1000 / 60 / 60 / 24) + catalog_magic_num;
   var rng = seed_random(seed);
+  
+  
   
   var catalog = [];
   var i;
   for (i=0; i<bot_data.num_catalog_items; i++) {
-    console.log(rng());
+    catalog.push([
+      rng()
+    ]);
   }
+  
+  return catalog;
 }
 exports.get_catalog = get_catalog;
 

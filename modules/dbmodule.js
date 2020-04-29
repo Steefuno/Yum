@@ -48,6 +48,7 @@ const init = function() {
         [description] TEXT DEFAULT "",
         [min_price] INTEGER NOT NULL,
         [max_price] INTEGER NOT NULL,
+        [on_catalog] INTEGER NOT NULL,
         PRIMARY KEY (item_id),
         UNIQUE (item_id)
       )
@@ -105,10 +106,19 @@ const set_balance = function(user_id, value, callback) {
 // gets data on an item
 const get_item_info = function(item_id, callback) {
   return db.get(`
-    SELECT (item_id, name, description)
+    SELECT *
     FROM items
     WHERE (item_id = ?)
   `, [item_id], callback);
+}
+
+// gets all items that can appear on the catalog
+const get_catalog_items = function(callback) {
+  return db.all(`
+    SELECT *
+    FROM items
+    WHERE (on_catalog = 1)
+  `, [], callback);
 }
 
 // update or create an item
