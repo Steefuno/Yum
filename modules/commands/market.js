@@ -41,24 +41,17 @@ const get_catalog = function(callback) {
   var rng = seed_random(seed);
   
   return dbmodule.get_catalog_items((err, items) => {
+    console.log(items);
+    
     var catalog = [];
     var i;
     for (i=0; i<bot_data.num_catalog_items; i++) {
-      catalog.push(
-      
-      );
+      catalog.push([
+        items.length*Math.floor(rng()), // picks random item
+        
+      ]);
     }
   });
-  
-  var catalog = [];
-  var i;
-  for (i=0; i<bot_data.num_catalog_items; i++) {
-    catalog.push([
-      rng()
-    ]);
-  }
-  
-  return catalog;
 }
 exports.get_catalog = get_catalog;
 
