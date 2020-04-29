@@ -62,7 +62,7 @@ const db_get = function(message, args) {
       message.reply(err, output_error);
       return console.error(err);
     }
-    message.reply("I have successfully ran the db instruction.");
+    message.reply(row.toString());
     return console.log(row);
   });
 }
