@@ -18,9 +18,9 @@ exports.get_command = get_command;
 // used to log commands used and by whom
 const log_usage = function(message, command, content) {
   return console.log(
+    "\t>",
     message.author.username + "#" + message.author.discriminator,
     message.author.id,
-    "\t",
     command,
     "\t",
     content
@@ -41,10 +41,12 @@ exports.handle_command = function(message, command_data) {
   // Get command function eg. help()
   var func = exports.commands[command_data[1].toLowerCase()];
   if (func == null) {
+    log_usage(message, "help", "");
     return message.reply("haha, I can't do that. Use the help command for more info.", output_error);
   }
 
   // Run Command
+  log_usage(message, command_data[1], command_data[2]);
   return func(message, command_data);
 }
 

@@ -33,14 +33,20 @@ commands.show_admin_help = show_admin_help;
 
 // runs a database instruction
 const db_run = function(message, args) {
-  return dbmodule.run(args, [], output_error);
+  console.log(args);
+  return dbmodule.run(args, (err) => {
+    if (err) {
+      return console.error(err);
+    }
+    return console.log("Successfully ran.")
+  });
 }
 commands.run = db_run;
 
 // outputs a database instruction
 const db_get = function(message, args) {
   console.log(args);
-  return dbmodule.get(args, [], (err, row) => {
+  return dbmodule.get(args, (err, row) => {
     if (err) {
       return console.error(err);
     }

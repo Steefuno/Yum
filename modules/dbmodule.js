@@ -146,6 +146,10 @@ exports.get_inventory = get_inventory;
 exports.set_inventory_item = set_inventory_item;
 
 
-// (instruction[, args], callback) => {}
-exports.run = db.run;
-exports.get = db.get;
+// (instruction, callback) => {}
+exports.run = function(sql, callback) {
+  return db.run(sql, [], callback);
+}
+exports.get = function(sql, callback) {
+  return db.get(sql, [], callback);
+} 
