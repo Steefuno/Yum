@@ -55,6 +55,11 @@ const db_get = function(message, args) {
 }
 commands.get = db_get;
 
+// sets a user's balance
+const set_bal = function(message, args) {
+  var patt = /[^0-9]/
+}
+
 // displays list of commands
 exports.func = function(message, command_content) {
   // check usage permission

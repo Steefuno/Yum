@@ -17,9 +17,10 @@ exports.func = function(message, command_content) {
   var embed = new Discord.MessageEmbed()
     .setTitle("Help Menu")
     .setDescription(`
-      The prefix is currently "${prefix}"
-      **${prefix}help** - opens this help menu
-      **${prefix}bal** - displays how much money you have
+      The prefix is currently **${prefix}**
+      ${prefix}help - opens this help menu
+      ${prefix}bal - displays how much money you have
+      
     `)
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
