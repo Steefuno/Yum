@@ -36,9 +36,10 @@ const db_run = function(message, args) {
   console.log(args);
   return dbmodule.run(args, (err) => {
     if (err) {
+      show_admin_help(message, args);
       return console.error(err);
     }
-    return console.log("Successfully ran.")
+    return message.reply("I have successfully ran the db instruction.");
   });
 }
 commands.run = db_run;
@@ -48,8 +49,10 @@ const db_get = function(message, args) {
   console.log(args);
   return dbmodule.get(args, (err, row) => {
     if (err) {
+      show_admin_help(message, args);
       return console.error(err);
     }
+    message.reply("I have successfully ran the db instruction.");
     return console.log(row);
   });
 }
@@ -57,8 +60,30 @@ commands.get = db_get;
 
 // sets a user's balance
 const set_bal = function(message, args) {
-  var patt = /[^0-9]/
+  var patt = /[^0-9]*([0-9]*)[^0-9]*/;
+  var command_content = args.match(patt);
+  if (command_content == null) {
+    return message.reply("try again, no value found.");
+  }
+  
+  var new_bal = parseInt(command_content[1]);
+  if (new_bal == NaN) {
+    return message.reply("try again, invalid value.");
+  }
+  
+  var target_user = message.mentions.members.first();
+  if (target_user == null) {
+    return message.reply("try again, no mentioned user found.");
+  }
+  
+  return dbmodule.set_balance(target_user.id, new_bal, (err) => {
+    if (err) {
+      return console.error(err);
+    }
+    return message.reply("I have successfully set " + target_user.username + "#" + target_user.discriminator + "'s balance to " + new_bal + ".", output_error);
+  })
 }
+commands.set_bal = set_bal;
 
 // displays list of commands
 exports.func = function(message, command_content) {
