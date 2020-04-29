@@ -36,7 +36,7 @@ const db_run = function(message, args) {
   console.log(args);
   return dbmodule.run(args, (err) => {
     if (err) {
-      show_admin_help(message, args);
+      message.reply(err, output_error);
       return console.error(err);
     }
     return message.reply("I have successfully ran the db instruction.");
@@ -49,7 +49,7 @@ const db_get = function(message, args) {
   console.log(args);
   return dbmodule.get(args, (err, row) => {
     if (err) {
-      show_admin_help(message, args);
+      message.reply(err, output_error);
       return console.error(err);
     }
     message.reply("I have successfully ran the db instruction.");
