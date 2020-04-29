@@ -19,6 +19,7 @@ const display_commands = function(message, command_content) {
       " + prefix + " SOME_COMMAND - gives more info on a command\n\
       " + prefix + " help - opens this help menu\n\
       " + prefix + " bal - displays how much money you have\n\
+      " + prefix + " market - displays market commands\n\
       " + prefix + " credits - shows anyone that helped with the game\
     ")
     .setFooter(message.author.username + "#" + message.author.discriminator)

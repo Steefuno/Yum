@@ -34,7 +34,7 @@ const display_commands = function(message, command_content) {
 
 const get_catalog = function() {
   var seed = Date.now() / 1000 / 60 / 60 / 24;
-  var rng = new Math.randomseed(seed);
+  var rng = seed_random(seed);
   
   var catalog = [];
   var i;
@@ -64,7 +64,7 @@ exports.help = function(message, command_content) {
     .setColor(6611350)
   ;
   
-  get_catalog();
+  get_catalog(); 
   return message.channel.send("", embed, output_error);
 }
 
