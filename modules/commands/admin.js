@@ -31,10 +31,10 @@ const show_admin_help = function(message, args) {
     .setTitle("Admin Menu")
     .setDescription("\
 The prefix is currently **${prefix} admin**\n\
-${prefix}admin - opens this help menu\n\
-${prefix}admin run INSTRUCTION - run a database instruction\n\
-${prefix}admin get INSTRUCTION - outputs a database instruction\n\
-${prefix}admin set_bal USERMENTION AMOUNT - sets a users balance\
+${prefix} admin - opens this help menu\n\
+${prefix} admin run INSTRUCTION - run a database instruction\n\
+${prefix} admin get INSTRUCTION - outputs a database instruction\n\
+${prefix} admin set_bal USERMENTION AMOUNT - sets a users balance\
     ")
   ;
   return message.channel.send("", embed, output_error);

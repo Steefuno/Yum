@@ -18,9 +18,9 @@ exports.func = function(message, command_content) {
     .setTitle("Help Menu")
     .setDescription("\
 The prefix is currently **${prefix}**\n\
-${prefix}help - opens this help menu\n\
-${prefix}bal - displays how much money you have\n\
-${prefix}credits - shows anyone that helped with the game\
+${prefix} help - opens this help menu\n\
+${prefix} bal - displays how much money you have\n\
+${prefix} credits - shows anyone that helped with the game\
     ")
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
