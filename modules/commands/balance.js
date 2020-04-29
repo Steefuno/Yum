@@ -26,6 +26,7 @@ exports.func = function(message, command_content) {
       return console.error(err);
     }
     
+    // credit to elise naming monies as "epic gamer coins"
     if (row) {
       embed = embed.setDescription("You have " + row.balance + " " + bot_data.currency); 
     } else {
