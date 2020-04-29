@@ -11,7 +11,7 @@ const output_error = function(err) {
   return;
 }
 
-// displays list of commands
+// displays list of commands or info on a command
 exports.func = function(message, command_content) {
   if (command_content[2].length == 0) {
     var embed = new Discord.MessageEmbed()
@@ -33,9 +33,7 @@ exports.func = function(message, command_content) {
     if (command == null) {
       return message.reply("dude, you can't get help for something that doesn't exist. Use the help command for more info.", output_error);
     }
-    var func = command.func;
-    
-    
+    return command.help(message, command_content);
   }
 }
 

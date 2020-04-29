@@ -15,7 +15,10 @@ exports.func = function(message, command_content) {
   if (command_content[2].length == 0) {
     var embed = new Discord.MessageEmbed()
       .setTitle("Help Balance")
-      .setDescription("This is the module to access the market functions.")
+      .setDescription("\
+        " + prefix + " market view - displays today's market\n\
+        " + prefix + " market  - shows anyone that helped with the game\
+      ")
       .setFooter(message.author.username + "#" + message.author.discriminator)
       .setColor(6611350)
     ;

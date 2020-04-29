@@ -66,7 +66,9 @@ exports.func = function(message, command_content) {
   return commands.help(message, command_content[2]);
 }
 
-exports.help = function(message, command_content) {}
+exports.help = function(message, command_content) {
+  return message.reply("shhhh. That's classified.", output_error);
+}
 
 exports.aliases = [
   "admin"
