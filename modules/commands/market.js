@@ -34,14 +34,14 @@ const display_commands = function(message, command_content) {
 const get_catalog = function(code_override) {
   var code;
   if (code_override == 0) {
-    code = Date.now() / 1000 / 60 / 60 / 12; --
+    code = Date.now() / 1000 / 60 / 60 / 24; // code changes every 24 hours
   } else {
     code = code_override;
   }
   
-  
-
-  return t;
+  var catalog = {
+    
+  }
 }
 exports.get_catalog = get_catalog;
 
