@@ -62,11 +62,25 @@ const db_get = function(message, args) {
       message.reply(err, output_error);
       return console.error(err);
     }
-    message.reply(row.stringify;
+    message.reply(JSON.stringify(row));
     return console.log(row);
   });
 }
 commands.get = db_get;
+
+// outputs a database instruction with multiple rows
+const db_all = function(message, args) {
+  console.log(args);
+  return dbmodule.get(args, (err, rows) => {
+    if (err) {
+      message.reply(err, output_error);
+      return console.error(err);
+    }
+    message.reply(JSON.stringify(rows));
+    return console.log(rows);
+  });
+}
+commands.all = db_all;
 
 // sets a user's balance
 const set_bal = function(message, args) {

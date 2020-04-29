@@ -152,4 +152,7 @@ exports.run = function(sql, callback) {
 }
 exports.get = function(sql, callback) {
   return db.get(sql, [], callback);
-} 
+}
+exports.add = function(sql, callback) {
+  return db.add(sql, [], callback);
+}
