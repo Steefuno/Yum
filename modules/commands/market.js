@@ -11,28 +11,37 @@ const output_error = function(err) {
   return;
 }
 
+const display_commands = function(message, command_content) {
+  var embed = new Discord.MessageEmbed()
+    .setTitle("Help Balance")
+    .setDescription("\
+      " + prefix + " market view - displays today's market\n\
+      " + prefix + " market buy ID AMOUNT - buys AMOUNT market items\n\
+      " + prefix + " market sell ID AMOUNT - sells AMOUNT items to the market\
+    ")
+    .setFooter(message.author.username + "#" + message.author.discriminator)
+    .setColor(6611350)
+  ;
+
+  return message.channel.send("", embed, output_error);
+}
+
 exports.func = function(message, command_content) {
   if (command_content[2].length == 0) {
-    var embed = new Discord.MessageEmbed()
-      .setTitle("Help Balance")
-      .setDescription("\
-        " + prefix + " market view - displays today's market\n\
-        " + prefix + " market  - shows anyone that helped with the game\
-      ")
-      .setFooter(message.author.username + "#" + message.author.discriminator)
-      .setColor(6611350)
-    ;
-
-    return message.channel.send("", embed, output_error);
+    return display_commands(message, command_content);
   } else {
-    
+    var command = command_module.commands[command_content[2]];
+    if (command == null) {
+      return message.reply("dude, you can't get help for something that doesn't exist. Use the help command for more info.", output_error);
+    }
+    return command.help(message, command_content);
   }
 }
 
 exports.help = function(message, command_content) {
   var embed = new Discord.MessageEmbed()
     .setTitle("Help Balance")
-    .setDescription("This is the module to access the market functions.")
+    .setDescription("This is the module to access the market commands.")
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
   ;
@@ -41,8 +50,8 @@ exports.help = function(message, command_content) {
 }
 
 exports.aliases = [
-  "balance",
-  "bal",
-  "money",
-  "monies"
+  "shop",
+  "market",
+  "supermarket",
+  "store"
 ];

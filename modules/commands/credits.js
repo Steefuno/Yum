@@ -42,5 +42,6 @@ exports.help = function(message, command_content) {
 
 exports.aliases = [
   "credits",
+  "cred",
   "thanks"
 ];
