@@ -12,16 +12,6 @@ const output_error = function(err) {
   return;
 }
 
-// used to log commands used and by whom
-const log_usage = function(message, command, content) {
-  return console.log(
-    message.author.username + "#" + message.author.discriminator,
-    message.author.id,
-    command,
-    content
-  );
-}
-
 const handleMessage = function(message) {
   // Ignore bot messages
   if (message.author.bot) return;
@@ -30,24 +20,12 @@ const handleMessage = function(message) {
   var command_data = command_module.get_command(message.content);
   if (command_data != null) {
     // Handle a command
-    // Get command eg. help
-    var command = command_data[1];
-
-    // Get command function eg. help()
-    var func = command_module.commands[command_data[1].toLowerCase()]
-    log_usage(message, command_data[1], command_data[2]);
-    if (func == null) {
-      return message.reply("haha, I can't do that. Use the help command for more info.", output_error);
-    }
-
-    // Run Command
-    return func(message, command_data[2]);
+    return command_module.handle_command(message, command_data);
   } else {
     // Check if bot has been mentioned
     var mention = message.mentions.users.first();
     if (mention && mention.equals(client.user)) {
       // Handle the ping by calling help function
-      log_usage(message, "help");
       return command_module.commands["help"](message, null);
     }
   }

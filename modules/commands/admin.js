@@ -13,7 +13,11 @@ const output_error = function(err) {
 
 // displays list of commands
 exports.func = function(message, command_content) {
-  
+  var patt = /(\S*)\s(.*)/;
+  var argument_data = command_content.match(patt);
+  if (argument_data == null) {
+    
+  }
 }
 
 exports.aliases = [
