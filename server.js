@@ -33,8 +33,14 @@ const handle_message = function(message) {
   }
 };
 
+// Output and recover from error
 const handle_error = function(err) {
+  console.error(err);
   
+  // Attempt to login? Untested, not sure if client is removed on error
+  setTimeout(() => {
+    client.login(bot_data.token, output_error);
+  }, 20*1000)
 }
 
 // Setup events
