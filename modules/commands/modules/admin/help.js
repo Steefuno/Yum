@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const bot_data = require("./../../bot_data");
+const bot_data = require("./../../../bot_data");
 
 const prefix = bot_data.prefix;
 

@@ -34,82 +34,9 @@ var commands = [];
 // Loop through all command modules
 modules.forEach(function(command) {
   var command_data = require("./modules/admin/" + command);
-  var command_func = command_data.func;
-  
-  // Loop through all keywords used to call command
-  commands[command] = command_func;
+  commands[command] = command_data.func;
 });
 
-
-
-// runs a database instruction
-const db_run = function(message, args) {
-  console.log(args);
-  return dbmodule.run(args, (err) => {
-    if (err) {
-      message.reply(err, output_error);
-      return console.error(err);
-    }
-    return message.reply("I have successfully ran the db instruction.");
-  });
-}
-commands.run = db_run;
-
-// outputs a database instruction
-const db_get = function(message, args) {
-  console.log(args);
-  return dbmodule.get(args, (err, row) => {
-    if (err) {
-      message.reply(err, output_error);
-      return console.error(err);
-    }
-    message.reply(JSON.stringify(row));
-    return console.log(row);
-  });
-}
-commands.get = db_get;
-
-// outputs a database instruction with multiple rows
-const db_all = function(message, args) {
-  console.log(args);
-  return dbmodule.all(args, (err, rows) => {
-    if (err) {
-      message.reply(err, output_error);
-      return console.error(err);
-    }
-    message.reply(JSON.stringify(rows));
-    return console.log(rows);
-  });
-}
-commands.all = db_all;
-
-// sets a user's balance
-const set_bal = function(message, args) {
-  var patt = /[^>]*[^0-9]*([0-9]*)[^0-9]*/;
-  var command_content = args.match(patt);
-  if (command_content == null) {
-    return message.reply("try again, no value found.");
-  }
-  
-  var new_bal = parseInt(command_content[1]);
-  if (new_bal == NaN) {
-    return message.reply("try again, invalid value.");
-  }
-  
-  var target_user = message.mentions.members.first();
-  if (target_user == null) {
-    return message.reply("try again, no mentioned user found.");
-  }
-  target_user = target_user.user;
-  
-  return dbmodule.set_balance(target_user.id, new_bal, (err) => {
-    if (err) {
-      return console.error(err);
-    }
-    return message.reply("I have successfully set " + target_user.username + "#" + target_user.discriminator + "'s balance to " + new_bal + ".", output_error);
-  })
-}
-commands.set_bal = set_bal;
 
 // displays list of commands
 exports.func = function(message, command_content) {
