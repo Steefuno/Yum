@@ -9,7 +9,7 @@ const output_error = function(err) {
 }
 
 // sets a user's balance
-const set_bal = function(message, args) {
+exports.func = function(message, args) {
   var patt = /[^>]*[^0-9]*([0-9]*)[^0-9]*/;
   var command_content = args.match(patt);
   if (command_content == null) {
@@ -34,4 +34,3 @@ const set_bal = function(message, args) {
     return message.reply("I have successfully set " + target_user.username + "#" + target_user.discriminator + "'s balance to " + new_bal + ".", output_error);
   })
 }
-exports.func = set_bal;

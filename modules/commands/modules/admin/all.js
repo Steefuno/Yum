@@ -9,7 +9,7 @@ const output_error = function(err) {
 }
 
 // outputs a database instruction with multiple rows
-const db_all = function(message, args) {
+exports.func = function(message, args) {
   console.log(args);
   return dbmodule.all(args, (err, rows) => {
     if (err) {
@@ -20,4 +20,3 @@ const db_all = function(message, args) {
     return console.log(rows);
   });
 }
-exports.func = db_all;

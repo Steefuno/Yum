@@ -9,7 +9,7 @@ const output_error = function(err) {
 }
 
 // runs a database instruction
-const db_run = function(message, args) {
+exports.func = function(message, args) {
   console.log(args);
   return dbmodule.run(args, (err) => {
     if (err) {
@@ -19,4 +19,3 @@ const db_run = function(message, args) {
     return message.reply("I have successfully ran the db instruction.");
   });
 }
-exports.func = db_run;

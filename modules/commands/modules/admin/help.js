@@ -11,7 +11,7 @@ const output_error = function(err) {
 }
 
 // Sends an embed message of commands for admins
-const show_admin_help = function(message, args) {
+exports.func = function(message, args) {
   var embed = new Discord.MessageEmbed()
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
@@ -25,4 +25,3 @@ const show_admin_help = function(message, args) {
   ;
   return message.channel.send("", embed, output_error);
 }
-exports.func = show_admin_help;

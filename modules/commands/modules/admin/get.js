@@ -9,7 +9,7 @@ const output_error = function(err) {
 }
 
 // outputs a database instruction
-const db_get = function(message, args) {
+exports.func = function(message, args) {
   console.log(args);
   return dbmodule.get(args, (err, row) => {
     if (err) {
@@ -20,4 +20,3 @@ const db_get = function(message, args) {
     return console.log(row);
   });
 }
-exports.func = db_get;

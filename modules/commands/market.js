@@ -16,11 +16,13 @@ const output_error = function(err) {
   return;
 }
 
+const get_cata
+
 const display_commands = function(message, command_content) {
   var embed = new Discord.MessageEmbed()
-    .setTitle("Help Balance")
+    .setTitle("Help Market")
     .setDescription("\
-      " + prefix + " market view - displays today's market\n\
+      " + prefix + " market view - displays today's catalog\n\
       " + prefix + " market buy ID AMOUNT - buys AMOUNT market items\n\
       " + prefix + " market sell ID AMOUNT - sells AMOUNT items to the market\
     ")
