@@ -9,7 +9,7 @@ exports.commands = {};
 
 // get command after prefix and all args afterwards
 const get_command = function(str) {
-  var patt = new RegExp(prefix + "\s?(\S*)\s?(.*)", "i");
+  var patt = new RegExp(prefix + "[\]*([]*)\s*([.]*)", "i");
   var result = patt.exec(str);
   return result;
 };
@@ -52,7 +52,8 @@ exports.handle_command = function(message, command_data) {
   var command = command_data[1];
 
   // Get command function eg. help()
-  var func = exports.commands[command_data[1].toLowerCase()]
+  console.log(command_data);
+  var func = exports.commands[command_data[1].toLowerCase()];
   log_usage(message, command_data[1], command_data[2]);
   if (func == null) {
     return message.reply("haha, I can't do that. Use the help command for more info.", output_error);
@@ -63,15 +64,15 @@ exports.handle_command = function(message, command_data) {
 }
 
 /* Commands */
-const commands = [
+const files = [
   "help",
   "balance",
   "admin"
 ];
 
 // Loop through all command modules
-commands.forEach(function(command) {
-  var command_data = require("./commands/" + command);
+files.forEach(function(filename) {
+  var command_data = require("./commands/" + filename);
   var command_func = command_data.func;
   
   // Loop through all keywords used to call command
