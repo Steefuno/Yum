@@ -46,11 +46,12 @@ exports.handle_command = function(message, command_data) {
   var command = command_data[1];
 
   // Get command function eg. help()
-  var func = exports.commands[command_data[1].toLowerCase()];
-  if (func == null) {
+  command = exports.commands[command_data[1].toLowerCase()];
+  if (command == null) {
     log_usage(message, "help", "");
     return message.reply("haha, I can't do that. Use the help command for more info.", output_error);
   }
+  var func = command.func;
 
   // Run Command
   log_usage(message, command_data[1], command_data[2]);
@@ -61,10 +62,9 @@ exports.handle_command = function(message, command_data) {
 // Loop through all command modules
 modules.forEach(function(filename) {
   var command_data = require("./commands/" + filename);
-  var command_func = command_data.func;
   
   // Loop through all keywords used to call command
   command_data.aliases.forEach(function(alias) {
-    exports.commands[alias] = command_func;
+    exports.commands[alias] = command_data;
   });
 });

@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
+const command_module = require("./../command_module.js");
 
 const prefix = bot_data.prefix;
 
@@ -28,6 +29,12 @@ exports.func = function(message, command_content) {
 
     return message.channel.send("", embed, output_error);
   } else {
+    var command = command_module.commands[command_content[2]];
+    if (command == null) {
+      return message.reply("dude, you can't get help for something that doesn't exist. Use the help command for more info.", output_error);
+    }
+    var func = command.func;
+    
     
   }
 }
