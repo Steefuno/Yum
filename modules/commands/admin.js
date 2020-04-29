@@ -62,7 +62,7 @@ const db_get = function(message, args) {
       message.reply(err, output_error);
       return console.error(err);
     }
-    message.reply(row.toString());
+    message.reply(row.stringify;
     return console.log(row);
   });
 }
