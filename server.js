@@ -12,6 +12,12 @@ const output_error = function(err) {
   return;
 }
 
+const log_usage = function(message) {
+  return console.log(
+    message.author.username + "#" + message.author.discriminator,
+    message.author.id, "help")
+}
+
 const handleMessage = function(message) {
   // Ignore bot messages
   if (message.author.bot) return;
@@ -36,6 +42,7 @@ const handleMessage = function(message) {
     var mention = message.mentions.users.first();
     if (mention && mention.equals(client.user)) {
       // Handle the ping by calling help function
+      log_usage(message, "help");
       return command_module.commands["help"](message, null);
     }
   }

@@ -9,7 +9,6 @@ var prefix = bot_data.prefix;
 const get_command = function(str) {
   var patt = new RegExp(prefix + "\s?(.*)\s?(.*)", "i");
   var result = patt.exec(str);
-  console.log(result);
   return result;
 };
 exports.get_command = get_command;
