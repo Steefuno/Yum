@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
 const command_module = require("./../command_module.js");
-const seed_random = require("seedrandom.js");
+const seed_random = require("seedrandom");
 
 const prefix = bot_data.prefix;
 const commands = [
@@ -9,9 +9,6 @@ const commands = [
   "buy",
   "sell"
 ];
-
-var current_seed = Date.now() / 1000 / 60 / 60 / 24; // Code changes every 24 hours
-var rng = new Math.randomseed(current_seed);
 
 const output_error = function(err) {
   if (err) {
@@ -36,15 +33,12 @@ const display_commands = function(message, command_content) {
 }
 
 const get_catalog = function() {
-  var new_seed = Date.now() / 1000 / 60 / 60 / 24;
-  if (new_seed != current_seed) {
-    current_seed = new_seed;
-    rng = new Math.randomseed(current_seed);
-  }
+  var seed = Date.now() / 1000 / 60 / 60 / 24;
+  var rng = new Math.randomseed(seed);
   
-  var catalog = {
+  var catalog = [
     
-  }
+  ];
 }
 exports.get_catalog = get_catalog;
 
