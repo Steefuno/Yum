@@ -30,8 +30,8 @@ const init = function() {
   // create balances table to store amount of money users have
   db.run(`
     CREATE TABLE IF NOT EXISTS balances (
-      [user_id] INTEGER NOT NULL,
-      [balance] INTEGER DEFAULT 0,
+      [user_id] TEXT NOT NULL,
+      [balance] TEXT DEFAULT 0,
       PRIMARY KEY (user_id),
       UNIQUE (user_id)
     )
@@ -59,7 +59,7 @@ const init = function() {
       // create user inventories table to store items held
       db.run(`
         CREATE TABLE IF NOT EXISTS inventories (
-          [user_id] INTEGER NOT NULL,
+          [user_id] TEXT NOT NULL,
           [item_id] INTEGER NOT NULL,
           [amount] INTEGER DEFAULT 0,
           PRIMARY KEY (user_id, item_id),
