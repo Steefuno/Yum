@@ -23,7 +23,7 @@ exports.func = function(message, command_content) {
       **${prefix} bal** - displays how much money you have
     `)
     .setFooter(message.author.username + "#" + message.author.discriminator)
-    .setColor(9821183)
+    .setColor(6611350)
   ;
   
   return message.channel.send("", embed, output_error);

@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
+const dbmodule = require("./../dbmodule");
 
 const prefix = bot_data.prefix;
 
@@ -14,17 +15,16 @@ const output_error = function(err) {
 exports.func = function(message, command_content) {
   var description = "The prefix is currently " + prefix;
   
-  
   var embed = new Discord.MessageEmbed()
-    .setTitle("Help Menu")
-    .setDescription(`
-      The prefix is currently "${prefix}"
-      **${prefix} help** - shows you this help menu
-      
-    `)
+    .setTitle("Monies")
     .setFooter(message.author.username + "#" + message.author.discriminator)
-    .setColor(9821183)
+    .setColor(6611350)
   ;
+  
+  dbmodule.get_balance(message.author.id, (err, row) => {
+    
+  });
+  
   
   return message.channel.send("", embed, output_error);
 }
