@@ -12,10 +12,14 @@ const output_error = function(err) {
   return;
 }
 
-const log_usage = function(message) {
+// used to log commands used and by whom
+const log_usage = function(message, command, content) {
   return console.log(
     message.author.username + "#" + message.author.discriminator,
-    message.author.id, "help")
+    message.author.id,
+    command,
+    content
+  );
 }
 
 const handleMessage = function(message) {
@@ -31,6 +35,7 @@ const handleMessage = function(message) {
 
     // Get command function eg. help()
     var func = command_module.commands[command_data[1].toLowerCase()]
+    log_usage(message, command_data[1], command_data[2]);
     if (func == null) {
       return message.reply("haha, I can't do that. Use the help command for more info.", output_error);
     }
