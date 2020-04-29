@@ -30,16 +30,16 @@ const show_admin_help = function(message, args) {
     .setColor(6611350)
     .setTitle("Admin Menu")
     .setDescription("\
-The prefix is currently **${prefix} admin**\n\
-${prefix} admin - opens this help menu\n\
-${prefix} admin run INSTRUCTION - run a database instruction\n\
-${prefix} admin get INSTRUCTION - outputs a database instruction\n\
-${prefix} admin set_bal USERMENTION AMOUNT - sets a users balance\
+The prefix is currently **" + prefix + " admin**\n\
+" + prefix + " admin - opens this help menu\n\
+" + prefix + " admin run INSTRUCTION - run a database instruction\n\
+" + prefix + " admin get INSTRUCTION - outputs a database instruction\n\
+" + prefix + " admin set_bal USERMENTION AMOUNT - sets a users balance\
     ")
   ;
   return message.channel.send("", embed, output_error);
 }
-commands.show_admin_help = show_admin_help;
+commands.help = show_admin_help;
 
 // runs a database instruction
 const db_run = function(message, args) {
@@ -117,7 +117,7 @@ exports.func = function(message, command_content) {
   
   // run help function on no admin command
   if (command_content[2].length == 0) {
-    return commands.show_admin_help(message);
+    return show_admin_help(message);
   }
   
   var patt = /(\S+)\s?(.*)/;
@@ -135,7 +135,7 @@ exports.func = function(message, command_content) {
   }
   
   // help on invalid command
-  return commands.show_admin_help(message, command_content[2]);
+  return show_admin_help(message, command_content[2]);
 }
 
 exports.aliases = [
