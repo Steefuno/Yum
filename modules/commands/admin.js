@@ -22,8 +22,8 @@ const show_admin_help = function(message, argument_data) {
     .setDescription(`
       The prefix is currently "${prefix} admin"
       **${prefix}admin** - opens this help menu
-      **${prefix}admin run INSTRUCTION ARG1 ARG2 ...** - run a database instruction
-      **${prefix}admin get INSTRUCTION ARG1 ARG2 ...** - output a database instruction
+      **${prefix}admin run INSTRUCTION** - run a database instruction
+      **${prefix}admin get INSTRUCTION** - outputs a database instruction
       **${prefix}admin set_bal USERMENTION AMOUNT** - sets a users balance
     `)
   ;
@@ -33,8 +33,20 @@ commands.show_admin_help = show_admin_help;
 
 // runs a database instruction
 const db_run = function(message, argument_data) {
-  
+  return dbmodule.run(argument_data[0], [], output_error);
 }
+commands.run = db_run;
+
+// outputs a database instruction
+const db_get = function(message, argument_data) {
+  return dbmodule.get(argument_data[0], [], (err, row) => {
+    if (err) {
+      return console.error(err);
+    }
+    return console.log(row);
+  });
+}
+commands.get = db_get;
 
 // displays list of commands
 exports.func = function(message, command_content) {
@@ -46,22 +58,23 @@ exports.func = function(message, command_content) {
     return commands.show_admin_help(message);
   }
   
-  var patt = /(\S+)\s?(.*)/g;
-  var argument_data = command_content[2].match(patt);
-  console.log(argument_data);
+  var patt = /(\S+)\s?(.*)/;
+  command_content = command_content[2].match(patt);
+  console.log(command_content);
   
-  // if 
-  if (argument_data == null) {
-    
+  // if invalid
+  if (command_content == null) {
+    return console.error("Invalid admin command.");
   }
   
   // find and run admin command
-  var func = commands[argument_data[0][1].toLowerCase()];
+  var func = commands[command_content[1].toLowerCase()];
   if (func != null) {
-    return func(message, argument_data);
+    return func(message, command_content[2]);
   }
   
-  return commands.show_admin_help(message, argument_data);
+  // help on invalid command
+  return commands.show_admin_help(message, command_content[2]);
 }
 
 exports.aliases = [
