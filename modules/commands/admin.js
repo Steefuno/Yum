@@ -71,7 +71,7 @@ commands.get = db_get;
 // outputs a database instruction with multiple rows
 const db_all = function(message, args) {
   console.log(args);
-  return dbmodule.get(args, (err, rows) => {
+  return dbmodule.all(args, (err, rows) => {
     if (err) {
       message.reply(err, output_error);
       return console.error(err);
