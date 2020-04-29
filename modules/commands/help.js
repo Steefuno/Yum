@@ -14,7 +14,6 @@ const output_error = function(err) {
 exports.func = function(message, command_content) {
   var description = "The prefix is currently " + prefix;
   
-  
   var embed = new Discord.MessageEmbed()
     .setTitle("Help Menu")
     .setDescription(`

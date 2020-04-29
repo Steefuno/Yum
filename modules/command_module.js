@@ -31,7 +31,8 @@ const get_args = function(command_content) {
 exports.commands = {};
 const commands = [
   "help",
-  "balance"
+  "balance",
+  "admin"
 ];
 
 // Loop through all command modules
