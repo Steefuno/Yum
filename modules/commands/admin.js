@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
 const dbmodule = require("./../dbmodule");
 
+const admin_commands = 
+
 const prefix = bot_data.prefix;
 
 const output_error = function(err) {
@@ -30,11 +32,11 @@ const show_admin_help = function(message, args) {
     .setColor(6611350)
     .setTitle("Admin Menu")
     .setDescription("\
-The prefix is currently **" + prefix + " admin**\n\
-" + prefix + " admin - opens this help menu\n\
-" + prefix + " admin run INSTRUCTION - run a database instruction\n\
-" + prefix + " admin get INSTRUCTION - outputs a database instruction\n\
-" + prefix + " admin set_bal USERMENTION AMOUNT - sets a users balance\
+      The prefix is currently **" + prefix + " admin**\n\
+      " + prefix + " admin - opens this help menu\n\
+      " + prefix + " admin run INSTRUCTION - run a database instruction\n\
+      " + prefix + " admin get INSTRUCTION - outputs a database instruction\n\
+      " + prefix + " admin set_bal USERMENTION AMOUNT - sets a users balance\
     ")
   ;
   return message.channel.send("", embed, output_error);

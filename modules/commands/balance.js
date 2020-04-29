@@ -36,6 +36,17 @@ exports.func = function(message, command_content) {
   });
 }
 
+exports.help = function(message, command_content) {
+  var embed = new Discord.MessageEmbed()
+    .setTitle("Help Balance")
+    .setDescription("This is the command to see how much money you have.")
+    .setFooter(message.author.username + "#" + message.author.discriminator)
+    .setColor(6611350)
+  ;
+  
+  return message.channel.send("", embed, output_error);
+}
+
 exports.aliases = [
   "balance",
   "bal",

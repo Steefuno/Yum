@@ -12,16 +12,26 @@ const output_error = function(err) {
 
 // displays list of commands
 exports.func = function(message, command_content) {
-  var description = "The prefix is currently " + prefix;
-  
   var embed = new Discord.MessageEmbed()
     .setTitle("Help Menu")
     .setDescription("\
-The prefix is currently **" + prefix + "**\n\
-" + prefix + " help - opens this help menu\n\
-" + prefix + " bal - displays how much money you have\n\
-" + prefix + " credits - shows anyone that helped with the game\
+      The prefix is currently **" + prefix + "**\n\
+      " + prefix + " SOME_COMMAND - gives more info on a command\n\
+      " + prefix + " help - opens this help menu\n\
+      " + prefix + " bal - displays how much money you have\n\
+      " + prefix + " credits - shows anyone that helped with the game\
     ")
+    .setFooter(message.author.username + "#" + message.author.discriminator)
+    .setColor(6611350)
+  ;
+  
+  return message.channel.send("", embed, output_error);
+}
+
+exports.help = function(message, command_content) {
+  var embed = new Discord.MessageEmbed()
+    .setTitle("Help Help")
+    .setDescription("This is the command to open the help menu, there's not much to say about this.")
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
   ;

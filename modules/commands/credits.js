@@ -20,12 +20,23 @@ exports.func = function(message, command_content) {
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
     .setDescription("\
-Good job, you beat the game.\n\
-Thanks to Elise for giving money the weird name \"epic gamer coins.\"\n\
-Thank you for supporting the game :)\n\
-- Steve\
+      Good job, you beat the game.\n\
+      Thanks to Elise for naming money the weird name \"epic gamer coins.\"\n\
+      Thank you for supporting the game :)\n\
+         - Steve\
     ");
   ;
+  return message.channel.send("", embed, output_error);
+}
+
+exports.help = function(message, command_content) {
+  var embed = new Discord.MessageEmbed()
+    .setTitle("Help Credits")
+    .setDescription("This is the command to open the credits and list whomever helped, there's not much to say about this.")
+    .setFooter(message.author.username + "#" + message.author.discriminator)
+    .setColor(6611350)
+  ;
+  
   return message.channel.send("", embed, output_error);
 }
 

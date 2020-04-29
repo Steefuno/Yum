@@ -5,6 +5,12 @@ const fs = require("fs")
 
 var prefix = bot_data.prefix;
 
+const modules = [
+  "help",
+  "balance",
+  "admin",
+  "credits"
+];
 exports.commands = {};
 
 // get command after prefix and all args afterwards
@@ -50,16 +56,9 @@ exports.handle_command = function(message, command_data) {
   return func(message, command_data);
 }
 
-/* Commands */
-const files = [
-  "help",
-  "balance",
-  "admin",
-  "credits"
-];
 
 // Loop through all command modules
-files.forEach(function(filename) {
+modules.forEach(function(filename) {
   var command_data = require("./commands/" + filename);
   var command_func = command_data.func;
   
