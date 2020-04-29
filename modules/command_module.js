@@ -31,9 +31,17 @@ const get_args = function(command_content) {
 /* Commands */
 exports.commands = {};
 const commands = [
-  "help"
+  "help",
+  "balance"
 ];
 
+// Loop through all command modules
 commands.forEach(function(command) {
-  exports.commands[command] = require("./commands/" + command).func;
+  var command_data = require("./commands/" + command);
+  var command_func = command_data.func;
+  
+  // Loop through all keywords used to call command
+  command_data.aliases.forEach(function(alias) {
+    exports.commands[alias] = command_func;
+  });
 });

@@ -19,8 +19,8 @@ exports.func = function(message, command_content) {
     .setTitle("Help Menu")
     .setDescription(`
       The prefix is currently "${prefix}"
-      **${prefix} help** - shows you this help menu
-      
+      **${prefix} help** - opens this help menu
+      **${prefix} bal** - displays how much money you have
     `)
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(9821183)
@@ -28,3 +28,7 @@ exports.func = function(message, command_content) {
   
   return message.channel.send("", embed, output_error);
 }
+
+exports.aliases = [
+  "help"
+];
