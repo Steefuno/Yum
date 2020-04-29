@@ -3,6 +3,11 @@ const bot_data = require("./../bot_data");
 const command_module = require("./../command_module.js");
 
 const prefix = bot_data.prefix;
+const commands = [
+  "view",
+  "buy",
+  "sell"
+];
 
 const output_error = function(err) {
   if (err) {
