@@ -126,6 +126,24 @@ const add_balance = function(user_id, value, callback) {
   `, [user_id, user_id, value], callback);
 };
 
+// gets when player last did daily
+const get_daily_time = function(user_id, callback) {
+  return db.get(`
+    SELECT daily
+    FROM balances
+    WHERE user_id = ?
+  `, [user_id], callback);
+};
+
+// sets daily time as now
+const set_daily_time = function(user_id, callback) {
+  return db.run(`
+    INSERT OR REPLACE
+    INTO balances
+    
+  `, [user_id, Math.floor(Date.now()/1000/60)], callback);
+};
+
 // gets data on an item
 const get_item_info = function(item_id, callback) {
   return db.get(`
