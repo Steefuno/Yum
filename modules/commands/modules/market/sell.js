@@ -58,27 +58,25 @@ exports.func = function(message, command_content) {
       // remove item from player
       return dbmodule.set_inventory_item(message.author.id, item_id, amount - row.amount, (err) => {
         if (err) {
-          console.error("Failed to r")
+          console.error("Failed to update inventory_item " + item_id + " for inventory of " + message.author.id + ".");
+          return message.reply("oops, something went wrong!", output_error);
         }
       
         // get user's balance
-        return dbmodule.get_balance(message.author.id, (err, row) => {
+        return dbmodule.add_balance(message.author.id, price * amount, (err) => {
           if (err) {
             console.error("Can't get balance of " + message.author.id);
+            return message.reply("woah, major problem, you might wanna get this fixed.", output_error);
           }
+              
+          var embed = new Discord.MessageEmbed()
+            .setTitle("Sell Successful")
+            .setDescription("You sold " + amount + " for " + amount + " " + currency + " each. You earned " + (price * amount) + " " + currency + ".")
+            .setFooter(message.author.username + "#" + message.author.discriminator)
+            .setColor(6611350)
+          ;
 
-          // get balance from db row or default
-          var balance;
-          if (row == null) {
-            balance = 0;
-          } else {
-            balance = row.balance;
-          }
-
-          // get new balance
-          balance = balance + (price * amount);
-
-
+          return message.channel.send("", embed, output_error);
         });
       });
     });

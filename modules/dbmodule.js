@@ -103,6 +103,25 @@ const set_balance = function(user_id, value, callback) {
   `, [user_id, value], callback);
 };
 
+// adds to a player's balance
+const add_balance = function(user_id, value, callback) {
+  return db.run(`
+    INSERT OR REPLACE
+    INTO balances (user_id, balance)
+    VALUES (?, 
+    (
+      COALESCE
+      (
+        (
+          SELECT balance
+          FROM balances
+          WHERE user_id = ?
+        ), 0
+      ) + ?
+    )
+  `, [user_id, user_id, value], callback);
+};
+
 // gets data on an item
 const get_item_info = function(item_id, callback) {
   return db.get(`
@@ -187,6 +206,7 @@ const add_inventory_item = function(user_id, item_id, amount, callback) {
 
 exports.get_balance = get_balance;
 exports.set_balance = set_balance;
+exports.add_balance = add_balance;
 exports.get_item_info = get_item_info;
 exports.get_catalog_items = get_catalog_items;
 exports.set_item = set_item;
