@@ -50,6 +50,7 @@ const get_catalog = function(callback) {
       var item_num = items.length * Math.floor(rng()); // random item
       // pull to make sure no duplicates
       
+      
       var item_id = items[item_num].item_id;
       var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
       catalog.push([item_id, price]);
@@ -80,7 +81,6 @@ exports.help = function(message, command_content) {
     .setColor(6611350)
   ;
   
-  get_catalog((catalog) => console.log); 
   return message.channel.send("", embed, output_error);
 }
 
