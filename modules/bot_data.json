@@ -3,6 +3,7 @@
   "prefix":"yum",
   "currency":"epic gamer coins",
   "num_catalog_items":5,
+  "daily":50,
   "admins":[
     286346660399939588,
     293499644452012032

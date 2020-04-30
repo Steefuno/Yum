@@ -32,6 +32,7 @@ const init = function() {
     CREATE TABLE IF NOT EXISTS balances (
       [user_id] TEXT NOT NULL,
       [balance] TEXT DEFAULT 0,
+      [daily] TEXT DEFAULT 0,
       PRIMARY KEY (user_id),
       UNIQUE (user_id)
     )
