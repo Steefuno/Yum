@@ -8,8 +8,8 @@ const catalog_magic_num = 0; // Add to random number seed to get catalog
 
 const prefix = bot_data.prefix;
 const modules = [
-  "view"/*,
-  "buy",
+  "catalog",
+  "buy"/*,
   "sell"*/
 ];
 var commands = []
@@ -36,9 +36,10 @@ const display_commands = function(message, command_content) {
   var embed = new Discord.MessageEmbed()
     .setTitle("Help Market")
     .setDescription("\
-      " + prefix + " market view - displays today's catalog\n\
-      " + prefix + " market buy ID AMOUNT - buys AMOUNT market items\n\
-      " + prefix + " market sell ID AMOUNT - sells AMOUNT items to the market\
+      " + prefix + " market catalog - displays today's catalog\n\
+      " + prefix + " market buy AMOUNT ID - buys AMOUNT market items\n\
+      " + prefix + " market sell AMOUNT ID - sells AMOUNT items to the market\n\
+      \nfor the buy and sell commands, if you just use ID, I'll sell you one.\
     ")
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
@@ -87,8 +88,13 @@ exports.func = function(message, command_content) {
   if (command_content[2].length == 0) {
     return display_commands(message, command_content);
   } else {
-    console.log(command_content);
-    var command = commands[command_content[2]];
+    var patt = /(\S*)\s?(.*)/;
+    command_content = command_content[2].match(patt);
+    if (command_content == null) {
+      return message.reply("something's up with your command. Use the market command for more info.", output_error);
+    }
+    
+    var command = commands[command_content[1]];
     if (command == null) {
       return message.reply("dude, that doesn't exist. Use the market command for more info.", output_error);
     }
