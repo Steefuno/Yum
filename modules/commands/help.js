@@ -21,6 +21,7 @@ const display_commands = function(message, command_content) {
       " + prefix + " bal - displays how much money you have\n\
       " + prefix + " inventory - displays your inventory\n\
       " + prefix + " market - displays market commands\n\
+      " + prefix + " daily - claim daily credits once per day\n\
       " + prefix + " credits - shows anyone that helped with the game\
     ")
     .setFooter(message.author.username + "#" + message.author.discriminator)
