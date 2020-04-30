@@ -22,11 +22,11 @@ exports.func = function(message, command_content) {
   var amount;
   var item_id;
   
-  // If only one number argument was given, user is buying 1 of item_id [1]
+  // if only one number argument was given, user is buying 1 of item_id [1]
   if (command_content[2].length == 0) {
     amount = 1;
     item_id = parseInt(command_content[1]);
-  // If 2 number arguments were given, user is buying [1] of item_id [2]
+  // if 2 number arguments were given, user is buying [1] of item_id [2]
   } else {
     amount = parseInt(command_content[1]);
     item_id = parseInt(command_content[2]);
@@ -34,36 +34,49 @@ exports.func = function(message, command_content) {
   
   console.log(amount, item_id);
   
-  // Check if select item_id is being sold
+  // check if select item_id is being sold
   return market.get_catalog((catalog) => {
     var price = catalog[1][item_id];
     
-    // Check if item doesn't exist
+    // check if item doesn't exist
     if (price == null) {
       return message.reply("check your inventory again for IDs, item " + item_id + " doesn't exist.", output_error);
     }
     
-    // Check if user has item to sell
-    return dbmodule.get_inventory
-    
-    // get user's balance
-    return dbmodule.get_balance(message.author.id, (err, row) => {
+    // check if user has item to sell
+    return dbmodule.get_inventory_item(message.author.id, item_id, (err, row) => {
       if (err) {
-        console.error("Can't get balance of " + message.author.id);
+        console.error("Can't get inventory_item " + item_id + " from " + message.author.id);
+        return message.reply("oops, something went wrong!", output_error);
       }
       
-      // get balance from db row or default
-      var balance;
-      if (row == null) {
-        balance = 0;
-      } else {
-        balance = row.balance;
+      // if user does not have item or not enough
+      if (row == null || row.amount < amount) {
+        return message.reply("uh, I'm not gonna buy from you if you don't have the items", output_error);
       }
       
-      // get new balance
-      balance = balance + (price * amount);
+      // remove item from player
+      return dbmodule.
       
+      // get user's balance
+      return dbmodule.get_balance(message.author.id, (err, row) => {
+        if (err) {
+          console.error("Can't get balance of " + message.author.id);
+        }
+
+        // get balance from db row or default
+        var balance;
+        if (row == null) {
+          balance = 0;
+        } else {
+          balance = row.balance;
+        }
+
+        // get new balance
+        balance = balance + (price * amount);
+
       
+      });
     });
   });
 }

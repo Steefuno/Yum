@@ -44,7 +44,7 @@ exports.func = function(message, command_content) {
           if (err) {
             console.error("Can't get balance of " + message.author.id);
             console.error(err);
-            return message.reply("oops, something went wrong! You didn't lose " + currency + ", but you didn't buy the item either.", output_error);
+            return message.reply("oops, something went wrong!", output_error);
           }
           
           var balance;
@@ -64,7 +64,7 @@ exports.func = function(message, command_content) {
             if (err) {
               console.error("Can't set balance of " + message.author.id);
               console.err(err);
-              return message.reply("oops, something went wrong! You didn't lose " + currency + ", but you didn't buy the item either.", output_error);
+              return message.reply("oops, something went wrong!", output_error);
             }
             
             // increment inventory
@@ -72,7 +72,7 @@ exports.func = function(message, command_content) {
               if (err) {
                 console.error("FATAL: Can't increment inventory item of " + message.author.id);
                 console.error(err);
-                return message.reply("shoot! Something went horribly wrong, you lost " + currency + " and didn't get the goods!", output_error);
+                return message.reply("shoot! Something went horribly wrong, you lost " + currency + " but didn't get the goods!", output_error);
               }
               
               var embed = new Discord.MessageEmbed()
