@@ -43,6 +43,7 @@ exports.func = function(message, command_content) {
         return dbmodule.get_balance(message.author.id, (err, row) => {
           if (err) {
             console.error("Can't get balance of " + message.author.id);
+            console.error(err);
             return message.reply("oops, something went wrong! You didn't lose " + currency + ", but you didn't buy the item either.", output_error);
           }
           
@@ -62,11 +63,27 @@ exports.func = function(message, command_content) {
           return dbmodule.set_balance(message.author.id, balance - (catalog[i][2] * amount), (err) => {
             if (err) {
               console.error("Can't set balance of " + message.author.id);
+              console.err(err);
               return message.reply("oops, something went wrong! You didn't lose " + currency + ", but you didn't buy the item either.", output_error);
             }
             
             // increment inventory
-            dbmodule.add_item()
+            dbmodule.add_inventory_item(message.author.id, catalog[i][0], amount, (err) => {
+              if (err) {
+                console.error("FATAL: Can't increment inventory item of " + message.author.id);
+                console.error(err);
+                return message.reply("shoot! Something went horribly wrong, you lost " + currency + " and didn't get the goods!", output_error);
+              }
+              
+              var embed = new Discord.MessageEmbed()
+                .setTitle("Purchase Successful")
+                .setDescription("You bought " + amount + " " + catalog[i][1] + " for " + (catalog[i][2] * amount) + " " + currency + ".")
+                .setFooter(message.author.username + "#" + message.author.discriminator)
+                .setColor(6611350)
+              ;
+
+              return message.channel.send("", embed, output_error);
+            })
           })
         });
       }

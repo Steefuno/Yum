@@ -148,10 +148,19 @@ const add_inventory_item = function(user_id, item_id, amount, callback) {
     INSERT OR REPLACE
     INTO inventories (user_id, item_id, amount)
     VALUES (?, ?, 
+    (
+      COALESCE
       (
-
-      )
-  `, [user_id, item_id, amount], callback);
+        (
+          SELECT amount
+          FROM inventories
+          WHERE
+            user_id = ? AND
+            item_id = ?
+        ), 0
+      ) + ?
+    )
+  `, [user_id, item_id, user_id, item_id, amount], callback);
 }
 
 exports.get_balance = get_balance;
@@ -160,7 +169,7 @@ exports.get_item_info = get_item_info;
 exports.get_catalog_items = get_catalog_items;
 exports.set_item = set_item;
 exports.get_inventory = get_inventory;
-exports.set_inventory_item = set_inventory_item;
+exports.add_inventory_item = add_inventory_item;
 
 
 // (instruction, callback) => {}
