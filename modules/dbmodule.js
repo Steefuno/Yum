@@ -136,11 +136,13 @@ const get_daily_time = function(user_id, callback) {
 };
 
 // sets daily time as now
+// https://www.sqlite.org/lang_UPSERT.html
 const set_daily_time = function(user_id, callback) {
   return db.run(`
-    INSERT OR REPLACE
-    INTO balances
-    
+    INSERT INTO balances
+    VALUES (?, 0, ?)
+    ON CONFLICT(user_id) UPDATE
+      SET daily = ?
   `, [user_id, Math.floor(Date.now()/1000/60)], callback);
 };
 

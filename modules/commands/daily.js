@@ -13,8 +13,21 @@ const output_error = function(err) {
 
 // checks if user is able to claim daily, then grands credits
 exports.func = function(message, command_content) {
-  
-}
+  return dbmodule.get_daily(message.author.id, (err, row) => {
+    if (err) {
+      console.error("Cannot get daily time of " + message.author.id + ".", output_error);
+      console.error(err);
+      return message.reply("oop, Houston, we have a problem.", output_error);
+    }
+    
+    var current = Math.floor(Date.now()/1000/60);
+    // if unavailable
+    if (row != null && current - row.daily < 24*60*60*1000) {
+      var time_left = current - row.daily;
+      return message.reply("you need to wait " +  + " hours.");
+    }
+  });
+};
 
 exports.help = function(message, command_content) {
   var embed = new Discord.MessageEmbed()
