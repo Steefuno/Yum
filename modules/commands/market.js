@@ -15,7 +15,7 @@ const modules = [
 var commands = []
 
 // Caches the catalog for 30 seconds
-exports.catalog_cache;
+var catalog_cache;
 var catalog_cache_prev = -1;
 var catalog_cache_timeout = 30*1000;
 
@@ -49,7 +49,7 @@ const display_commands = function(message, command_content) {
 
 const get_catalog = function(callback) {
   var current_time = Date.now();
-  if (exports.catalog_cache == null || catalog_cache_prev - current_time > catalog_cache_timeout) {
+  if (catalog_cache == null || catalog_cache_prev - current_time > catalog_cache_timeout) {
     // If cache is unavailable
     // Get daily seed
     var seed = Math.floor(current_time / 1000 / 60 / 60 / 24) + catalog_magic_num;
@@ -71,14 +71,14 @@ const get_catalog = function(callback) {
       }
 
       // refresh cache
-      exports.catalog_cache = catalog;
+      catalog_cache = catalog;
       catalog_cache_prev = current_time;
       return callback(catalog);
     });
     
   // If cache is available
   } else {
-    return callback(exports.catalog_cache);
+    return callback(catalog_cache);
   }
 }
 exports.get_catalog = get_catalog;
