@@ -54,7 +54,7 @@ const get_catalog = function(callback) {
     var i;
     for (i=0; i<bot_data.num_catalog_items; i++) {
       if (items.length == 0) break; // stop on no items
-      var item_num = items.length * Math.floor(rng()); // random item
+      var item_num = Math.floor(items.length * rng()); // random item
       var item_id = items[item_num].item_id;
       var item_name = items[item_num].name;
       var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
