@@ -37,7 +37,7 @@ exports.func = function(message, command_content) {
           if (num_items > 0) {
             description = description + "\n";
           }
-          description = description + rows[i].amount + "x - [ID:" + rows[i].item_id + "] " + prices[rows[i].item_id][1] + " [Value:" + prices[rows[i].item_id][0] + "]"
+          description = description + rows[i].amount + "x - [ID:" + rows[i].item_id + "] " + prices[rows[i].item_id][1] + " - [Value:" + prices[rows[i].item_id][0] + "]"
           num_items = num_items + 1;
         }
       }
