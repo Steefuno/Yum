@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const bot_data = require("./../bot_data");
 const dbmodule = require("./../dbmodule");
-const command_module = require("./../command_module.js");
+const command_module = require("./../command_module");
 const seed_random = require("seedrandom");
 
 const catalog_magic_num = 0; // Add to random number seed to get catalog
