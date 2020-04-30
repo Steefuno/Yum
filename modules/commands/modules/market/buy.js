@@ -48,10 +48,10 @@ exports.func = function(message, command_content) {
           }
           
           var balance;
-          if (row != null) {
-            balance = row.balance;
-          } else {
+          if (row == null) {
             balance = 0;
+          } else {
+            balance = row.balance;
           }
           
           // if not enough money

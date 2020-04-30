@@ -134,12 +134,38 @@ const set_item = function(item_id, name, description, min_price, max_price, call
 
 // gets a player's inventory
 const get_inventory = function(user_id, callback) {
-  return db.all(`
-    SELECT *
-    FROM inventories
-    WHERE (user_id = ?)
-    GROUP BY (item_id)
-  `, [user_id], callback);
+  if (item_id == null) {
+    return db.all(`
+      SELECT *
+      FROM inventories
+      WHERE (user_id = ?)
+      GROUP BY (item_id)
+    `, [user_id], callback);
+  } else {
+    return db.all(`
+      SELECT *
+      FROM inventories
+      WHERE (user_id = ? AND item_id = ?)
+    `, [user_id, item_id], callback);
+  }
+}
+
+// gets a player's inventory about 1 specific item_id
+const get_inventory = function(user_id, item_id, callback) {
+  if (item_id == null) {
+    return db.all(`
+      SELECT *
+      FROM inventories
+      WHERE (user_id = ?)
+      GROUP BY (item_id)
+    `, [user_id], callback);
+  } else {
+    return db.all(`
+      SELECT *
+      FROM inventories
+      WHERE (user_id = ? AND item_id = ?)
+    `, [user_id, item_id], callback);
+  }
 }
 
 // sets data for an inventory item for one player

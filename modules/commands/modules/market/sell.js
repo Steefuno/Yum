@@ -43,11 +43,27 @@ exports.func = function(message, command_content) {
       return message.reply("check your inventory again for IDs, item " + item_id + " doesn't exist.", output_error);
     }
     
-    // get user's money
+    // Check if user has item to sell
+    return dbmodule.get_inventory
+    
+    // get user's balance
     return dbmodule.get_balance(message.author.id, (err, row) => {
       if (err) {
-        console.error()
+        console.error("Can't get balance of " + message.author.id);
       }
-    }
+      
+      // get balance from db row or default
+      var balance;
+      if (row == null) {
+        balance = 0;
+      } else {
+        balance = row.balance;
+      }
+      
+      // get new balance
+      balance = balance + (price * amount);
+      
+      
+    });
   });
 }
