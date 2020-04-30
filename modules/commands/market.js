@@ -39,9 +39,8 @@ const display_commands = function(message, command_content) {
       " + prefix + " market catalog - displays today's catalog\n\
       " + prefix + " market buy AMOUNT ID - buys AMOUNT market items\n\
       " + prefix + " market sell AMOUNT ID - sells AMOUNT items to the market\n\
-      Check your inventory for current sell prices\n\
-      \nYou can get item IDs from the catalog\n\
-      \nFor the buy and sell commands, if you just use ID, I'll sell you one.\
+      \nCheck your inventory for current sell prices\
+      You can get item IDs from the catalog or your inventory\
     ")
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)

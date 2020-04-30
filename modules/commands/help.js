@@ -16,9 +16,10 @@ const display_commands = function(message, command_content) {
     .setTitle("Help Menu")
     .setDescription("\
       The prefix is currently **" + prefix + "**\n\
-      " + prefix + " SOME_COMMAND - gives more info on a command\n\
       " + prefix + " help - opens this help menu\n\
+      " + prefix + " help SOME_COMMAND - gives more info on a command\n\
       " + prefix + " bal - displays how much money you have\n\
+      " + prefix + " inventory - displays your inventory\n\
       " + prefix + " market - displays market commands\n\
       " + prefix + " credits - shows anyone that helped with the game\
     ")

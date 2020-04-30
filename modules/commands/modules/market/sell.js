@@ -33,10 +33,6 @@ exports.func = function(message, command_content) {
     item_id = parseInt(command_content[2]);
   }
   
-  if (amount == NaN || item_id == NaN) {
-    return message.reply("make sure you're using IDs, not item names.", output_error);
-  }
-  
   console.log(amount, item_id);
   
   // check if select item_id is being sold
@@ -58,7 +54,7 @@ exports.func = function(message, command_content) {
       
       // if user does not have item or not enough
       if (row == null || row.amount < amount) {
-        return message.reply("uh, I'm not gonna buy from you if you don't have the items", output_error);
+        return message.reply("make sure you used the correct item ID, check the market command for help.", output_error);
       }
       
       // remove item from player
