@@ -11,16 +11,15 @@ const output_error = function(err) {
 
 exports.func = function(message, command_content) {
   return market.get_catalog((catalog) => {
+    var description = "";
+    var i;
+    for (i=0; i<catalog.length; i++) {
+      description = description + ""
+    }
+    
     var embed = new Discord.MessageEmbed()
-      .setTitle("Help Menu")
-      .setDescription("\
-        The prefix is currently **" + prefix + "**\n\
-        " + prefix + " SOME_COMMAND - gives more info on a command\n\
-        " + prefix + " help - opens this help menu\n\
-        " + prefix + " bal - displays how much money you have\n\
-        " + prefix + " market - displays market commands\n\
-        " + prefix + " credits - shows anyone that helped with the game\
-      ")
+      .setTitle("Today's Catalog")
+      .setDescription(description)
       .setFooter(message.author.username + "#" + message.author.discriminator)
       .setColor(6611350)
     ;
