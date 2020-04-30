@@ -56,7 +56,7 @@ exports.func = function(message, command_content) {
       }
       
       // remove item from player
-      return dbmodule.
+      return dbmodule.set_inventory_item(message.author.id, )
       
       // get user's balance
       return dbmodule.get_balance(message.author.id, (err, row) => {

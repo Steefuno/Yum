@@ -152,6 +152,15 @@ const get_inventory_item = function(user_id, item_id, callback) {
 };
 
 // sets data for an inventory item for one player
+const set_inventory_item = function(user_id, item_id, amount, callback) {
+  return db.run(`
+    INSERT OR REPLACE
+    INTO inventories (user_id, item_id, amount)
+    VALUES (?, ?, ?)
+  `, [user_id, item_id, amount], callback);
+};
+
+// adjusts data for an inventory item for one player
 const add_inventory_item = function(user_id, item_id, amount, callback) {
   return db.run(`
     INSERT OR REPLACE
@@ -183,6 +192,7 @@ exports.get_catalog_items = get_catalog_items;
 exports.set_item = set_item;
 exports.get_inventory = get_inventory;
 exports.get_inventory_item = get_inventory_item;
+exports.set_inventory_item = add_inventory_item;
 exports.add_inventory_item = add_inventory_item;
 
 
