@@ -14,6 +14,11 @@ const modules = [
 ];
 var commands = []
 
+// Caches the catalog for 30 seconds
+exports.catalog_cache;
+var catalog_cache_prev = -1;
+var catalog_cache_timeout = 30*1000;
+
 // Loop through all command modules
 modules.forEach(function(command) {
   var command_data = require("./modules/market/" + command);
@@ -43,29 +48,38 @@ const display_commands = function(message, command_content) {
 }
 
 const get_catalog = function(callback) {
-  // Get daily seed
-  var seed = Math.floor(Date.now() / 1000 / 60 / 60 / 24) + catalog_magic_num;
-  var rng = seed_random(seed);
-  
-  return dbmodule.get_catalog_items((err, items) => {
-    console.log(items);
+  var current_time = Date.now();
+  if (exports.catalog_cache == null || catalog_cache_prev - current_time > catalog_cache_timeout) {
+    // If cache is unavailable
+    // Get daily seed
+    var seed = Math.floor(current_time / 1000 / 60 / 60 / 24) + catalog_magic_num;
+    var rng = seed_random(seed);
+
+    return dbmodule.get_catalog_items((err, items) => {
+      var catalog = [];
+      var i;
+      for (i=0; i<bot_data.num_catalog_items; i++) {
+        if (items.length == 0) break; // stop on no items
+        var item_num = Math.floor(items.length * rng()); // random item
+        var item_id = items[item_num].item_id;
+        var item_name = items[item_num].name;
+        var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
+        catalog.push([item_id, item_name, Math.floor(price)]);
+
+        //splice to disable duplicates
+        items.splice(item_num, 1);
+      }
+
+      // refresh cache
+      exports.catalog_cache = catalog;
+      catalog_cache_prev = current_time;
+      return callback(catalog);
+    });
     
-    var catalog = [];
-    var i;
-    for (i=0; i<bot_data.num_catalog_items; i++) {
-      if (items.length == 0) break; // stop on no items
-      var item_num = Math.floor(items.length * rng()); // random item
-      var item_id = items[item_num].item_id;
-      var item_name = items[item_num].name;
-      var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
-      catalog.push([item_id, item_name, Math.floor(price)]);
-      
-      //splice to disable duplicates
-      items.splice(item_num, 1);
-    }
-    
-    callback(catalog);
-  });
+  // If cache is available
+  } else {
+    return callback(exports.catalog_cache);
+  }
 }
 exports.get_catalog = get_catalog;
 
