@@ -108,16 +108,19 @@ const add_balance = function(user_id, value, callback) {
   return db.run(`
     INSERT OR REPLACE
     INTO balances (user_id, balance)
-    VALUES (?, 
+    VALUES
     (
-      COALESCE
+      ?, 
       (
+        COALESCE
         (
-          SELECT balance
-          FROM balances
-          WHERE user_id = ?
-        ), 0
-      ) + ?
+          (
+            SELECT balance
+            FROM balances
+            WHERE user_id = ?
+          ), 0
+        ) + ?
+      )
     )
   `, [user_id, user_id, value], callback);
 };
@@ -172,6 +175,7 @@ const get_inventory_item = function(user_id, item_id, callback) {
 
 // sets data for an inventory item for one player
 const set_inventory_item = function(user_id, item_id, amount, callback) {
+  console.log("Setting",user_id,item_id,amount);
   return db.run(`
     INSERT OR REPLACE
     INTO inventories (user_id, item_id, amount)
@@ -212,7 +216,7 @@ exports.get_catalog_items = get_catalog_items;
 exports.set_item = set_item;
 exports.get_inventory = get_inventory;
 exports.get_inventory_item = get_inventory_item;
-exports.set_inventory_item = add_inventory_item;
+exports.set_inventory_item = set_inventory_item;
 exports.add_inventory_item = add_inventory_item;
 
 
