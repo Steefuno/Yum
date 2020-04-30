@@ -23,6 +23,7 @@ exports.func = function(message, command_content) {
   var item_id;
   
   // if only one number argument was given, user is buying 1 of item_id [1]
+  console.log(command_content[2].length);
   if (command_content[2].length == 0) {
     amount = 1;
     item_id = parseInt(command_content[1]);
@@ -30,6 +31,10 @@ exports.func = function(message, command_content) {
   } else {
     amount = parseInt(command_content[1]);
     item_id = parseInt(command_content[2]);
+  }
+  
+  if (amount == NaN || item_id == NaN) {
+    return message.reply("make sure you're using IDs, not item names.", output_error);
   }
   
   console.log(amount, item_id);
