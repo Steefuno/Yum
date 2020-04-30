@@ -11,6 +11,7 @@ const output_error = function(err) {
 
 exports.func = function(message, command_content) {
   return market.get_catalog((catalog) => {
+    console.log(catalog);
     var description = "";
     var i;
     // Format message

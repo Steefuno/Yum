@@ -77,7 +77,7 @@ const get_catalog = function(callback) {
         var item_num = Math.floor(items.length * rng()); // random item
         var item_id = items[item_num].item_id;
         var item_name = items[item_num].name;
-        var item_price = prices[item_id];
+        var item_price = prices[item_id][0];
         
         /* [
          *   item_id,
