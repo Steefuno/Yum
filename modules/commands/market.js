@@ -53,8 +53,8 @@ const display_commands = function(message, command_content) {
 const get_catalog = function(callback) {
   var current_time = Date.now();
   if (catalog_cache == null || catalog_cache_prev - current_time > catalog_cache_timeout) {
-    // If cache is unavailable
-    // Get daily seed
+    // if cache is unavailable
+    // get daily seed
     var seed = Math.floor(current_time / 1000 / 60 / 60 / 24) + catalog_magic_num;
     var rng = seed_random(seed);
 
@@ -62,28 +62,33 @@ const get_catalog = function(callback) {
       var catalog = [];
       var prices = [];
       
+      // set daily prices
       var i;
       for (i=0; i<items.length; i++) {
-        prices[items[i].item_id] = (items[i].max_price - items[i].min_price) * rng() + items[item_num].min_price // random price in range
+        prices[items[i].item_id] = Math.floor((items[i].max_price - items[i].min_price) * rng() + items[item_num].min_price) // random price in range
       }
       
+      // get daily buyable items
       for (i=0; i<bot_data.num_catalog_items; i++) {
         if (items.length == 0) break; // stop on no items
         var item_num = Math.floor(items.length * rng()); // random item
         var item_id = items[item_num].item_id;
         var item_name = items[item_num].name;
+        var item_price = prices[item_id];
         
         /* [
          *   item_id,
          *   item_name,
-         *   today's price
+         *   today's price // redundant, idc though
          * ]
         */
-        catalog.push([item_id, item_name, Math.floor(price)]);
+        catalog.push([item_id, item_name, item_price]);
 
-        //splice to disable duplicates
+        // splice to disable duplicates
         items.splice(item_num, 1);
       }
+      
+      catalog = [catalog, prices];
 
       // refresh cache
       catalog_cache = catalog;

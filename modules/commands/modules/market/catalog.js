@@ -14,11 +14,11 @@ exports.func = function(message, command_content) {
     var description = "";
     var i;
     // Format message
-    for (i=0; i<catalog.length; i++) {
+    for (i=0; i<catalog[0].length; i++) {
       if (i > 0) {
         description = description + "\n";
       }
-      description = description + catalog[i][2] + "$ - [" + catalog[i][0] + "] " + catalog[i][1];
+      description = description + catalog[0][i][2] + "$ - [" + catalog[0][i][0] + "] " + catalog[0][i][1];
     }
     
     var embed = new Discord.MessageEmbed()

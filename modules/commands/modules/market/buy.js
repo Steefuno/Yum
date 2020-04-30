@@ -36,9 +36,9 @@ exports.func = function(message, command_content) {
   // Check if select item_id is being sold
   return market.get_catalog((catalog) => {
     var i;
-    for (i=0; i<catalog.length; i++) {
+    for (i=0; i<catalog[0].length; i++) {
       // if item is being sold today, deduct money and purchase
-      if (catalog[i][0] == item_id) {
+      if (catalog[0][i][0] == item_id) {
         // get user's money
         return dbmodule.get_balance(message.author.id, (err, row) => {
           if (err) {
@@ -55,12 +55,12 @@ exports.func = function(message, command_content) {
           }
           
           // if not enough money
-          if (balance < catalog[i][2] * amount) {
+          if (balance < catalog[0][i][2] * amount) {
             return message.reply("sorry, you need more " + currency + ".", output_error);
           }
           
           // if enough money, deduct
-          return dbmodule.set_balance(message.author.id, balance - (catalog[i][2] * amount), (err) => {
+          return dbmodule.set_balance(message.author.id, balance - (catalog[0][i][2] * amount), (err) => {
             if (err) {
               console.error("Can't set balance of " + message.author.id);
               console.err(err);
@@ -68,7 +68,7 @@ exports.func = function(message, command_content) {
             }
             
             // increment inventory
-            dbmodule.add_inventory_item(message.author.id, catalog[i][0], amount, (err) => {
+            dbmodule.add_inventory_item(message.author.id, catalog[0][i][0], amount, (err) => {
               if (err) {
                 console.error("FATAL: Can't increment inventory item of " + message.author.id);
                 console.error(err);
@@ -77,17 +77,17 @@ exports.func = function(message, command_content) {
               
               var embed = new Discord.MessageEmbed()
                 .setTitle("Purchase Successful")
-                .setDescription("You bought " + amount + " " + catalog[i][1] + " for " + (catalog[i][2] * amount) + " " + currency + ".")
+                .setDescription("You bought " + amount + " " + catalog[0][i][1] + " for " + (catalog[0][i][2] * amount) + " " + currency + ".")
                 .setFooter(message.author.username + "#" + message.author.discriminator)
                 .setColor(6611350)
               ;
 
               return message.channel.send("", embed, output_error);
-            })
-          })
+            });
+          });
         });
       }
     }
     return message.reply("that item isn't being sold today.", output_error);
   });
-}
+};

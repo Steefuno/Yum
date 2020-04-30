@@ -21,6 +21,7 @@ exports.func = function(message, command_content) {
   
   var amount;
   var item_id;
+  
   // If only one number argument was given, user is buying 1 of item_id [1]
   if (command_content[2].length == 0) {
     amount = 1;
@@ -35,59 +36,18 @@ exports.func = function(message, command_content) {
   
   // Check if select item_id is being sold
   return market.get_catalog((catalog) => {
-    var i;
-    for (i=0; i<catalog.length; i++) {
-      // if item is being sold today, deduct money and purchase
-      if (catalog[i][0] == item_id) {
-        // get user's money
-        return dbmodule.get_balance(message.author.id, (err, row) => {
-          if (err) {
-            console.error("Can't get balance of " + message.author.id);
-            console.error(err);
-            return message.reply("oops, something went wrong! You didn't lose " + currency + ", but you didn't buy the item either.", output_error);
-          }
-          
-          var balance;
-          if (row != null) {
-            balance = row.balance;
-          } else {
-            balance = 0;
-          }
-          
-          // if not enough money
-          if (balance < catalog[i][2] * amount) {
-            return message.reply("sorry, you need more " + currency + ".", output_error);
-          }
-          
-          // if enough money, deduct
-          return dbmodule.set_balance(message.author.id, balance - (catalog[i][2] * amount), (err) => {
-            if (err) {
-              console.error("Can't set balance of " + message.author.id);
-              console.err(err);
-              return message.reply("oops, something went wrong! You didn't lose " + currency + ", but you didn't buy the item either.", output_error);
-            }
-            
-            // increment inventory
-            dbmodule.add_inventory_item(message.author.id, catalog[i][0], amount, (err) => {
-              if (err) {
-                console.error("FATAL: Can't increment inventory item of " + message.author.id);
-                console.error(err);
-                return message.reply("shoot! Something went horribly wrong, you lost " + currency + " and didn't get the goods!", output_error);
-              }
-              
-              var embed = new Discord.MessageEmbed()
-                .setTitle("Purchase Successful")
-                .setDescription("You bought " + amount + " " + catalog[i][1] + " for " + (catalog[i][2] * amount) + " " + currency + ".")
-                .setFooter(message.author.username + "#" + message.author.discriminator)
-                .setColor(6611350)
-              ;
-
-              return message.channel.send("", embed, output_error);
-            })
-          })
-        });
+    var price = catalog[1][item_id];
+    
+    // Check if item doesn't exist
+    if (price == null) {
+      return message.reply("check your inventory again for IDs, item " + item_id + " doesn't exist.", output_error);
+    }
+    
+    // get user's money
+    return dbmodule.get_balance(message.author.id, (err, row) => {
+      if (err) {
+        console.error()
       }
     }
-    return message.reply("that item isn't being sold today.", output_error);
   });
 }
