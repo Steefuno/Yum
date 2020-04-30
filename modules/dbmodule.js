@@ -147,18 +147,22 @@ const add_inventory_item = function(user_id, item_id, amount, callback) {
   return db.run(`
     INSERT OR REPLACE
     INTO inventories (user_id, item_id, amount)
-    VALUES (?, ?, 
+    VALUES
     (
-      COALESCE
+      ?,
+      ?, 
       (
+        COALESCE
         (
-          SELECT amount
-          FROM inventories
-          WHERE
-            user_id = ? AND
-            item_id = ?
-        ), 0
-      ) + ?
+          (
+            SELECT amount
+            FROM inventories
+            WHERE
+              user_id = ? AND
+              item_id = ?
+          ), 0
+        ) + ?
+      )
     )
   `, [user_id, item_id, user_id, item_id, amount], callback);
 }
