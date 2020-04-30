@@ -56,26 +56,30 @@ exports.func = function(message, command_content) {
       }
       
       // remove item from player
-      return dbmodule.set_inventory_item(message.author.id, )
-      
-      // get user's balance
-      return dbmodule.get_balance(message.author.id, (err, row) => {
+      return dbmodule.set_inventory_item(message.author.id, item_id, amount - row.amount, (err) => {
         if (err) {
-          console.error("Can't get balance of " + message.author.id);
+          console.error("Failed to r")
         }
-
-        // get balance from db row or default
-        var balance;
-        if (row == null) {
-          balance = 0;
-        } else {
-          balance = row.balance;
-        }
-
-        // get new balance
-        balance = balance + (price * amount);
-
       
+        // get user's balance
+        return dbmodule.get_balance(message.author.id, (err, row) => {
+          if (err) {
+            console.error("Can't get balance of " + message.author.id);
+          }
+
+          // get balance from db row or default
+          var balance;
+          if (row == null) {
+            balance = 0;
+          } else {
+            balance = row.balance;
+          }
+
+          // get new balance
+          balance = balance + (price * amount);
+
+
+        });
       });
     });
   });
