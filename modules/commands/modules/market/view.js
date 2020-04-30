@@ -18,7 +18,7 @@ exports.func = function(message, command_content) {
       if (i > 0) {
         description = description + "\n";
       }
-      description = description + "[" + catalog[i][1] + "] - " + catalog[i][0];
+      description = description + catalog[i][2] + "$ - [" + catalog[i][0] + "] " + catalog[i][1];
     }
     
     var embed = new Discord.MessageEmbed()
