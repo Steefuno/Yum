@@ -47,6 +47,7 @@ exports.func = function(message, command_content) {
     return dbmodule.get_inventory_item(message.author.id, item_id, (err, row) => {
       if (err) {
         console.error("Can't get inventory_item " + item_id + " from " + message.author.id);
+        console.error(err);
         return message.reply("oops, something went wrong!", output_error);
       }
       
@@ -56,17 +57,19 @@ exports.func = function(message, command_content) {
       }
       
       // remove item from player
-      return dbmodule.set_inventory_item(message.author.id, item_id, amount - row.amount, (err) => {
+      return dbmodule.set_inventory_item(message.author.id, item_id, row.amount - amount, (err) => {
         if (err) {
           console.error("Failed to update inventory_item " + item_id + " for inventory of " + message.author.id + ".");
+          console.error(err);
           return message.reply("oops, something went wrong!", output_error);
         }
       
         // get user's balance
         return dbmodule.add_balance(message.author.id, price * amount, (err) => {
           if (err) {
-            console.error("Can't get balance of " + message.author.id);
-            return message.reply("woah, major problem, you might wanna get this fixed.", output_error);
+            console.error("Can't update balance of " + message.author.id);
+            console.error(err);
+            return message.reply("woah, el problemo has appeared!", output_error);
           }
               
           var embed = new Discord.MessageEmbed()

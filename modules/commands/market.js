@@ -9,8 +9,8 @@ const catalog_magic_num = 0; // Add to random number seed to get catalog
 const prefix = bot_data.prefix;
 const modules = [
   "catalog",
-  "buy"/*,
-  "sell"*/
+  "buy",
+  "sell"
 ];
 var commands = []
 
@@ -65,7 +65,7 @@ const get_catalog = function(callback) {
       // set daily prices
       var i;
       for (i=0; i<items.length; i++) {
-        prices[items[i].item_id] = Math.floor((items[i].max_price - items[i].min_price) * rng() + items[item_num].min_price) // random price in range
+        prices[items[i].item_id] = Math.floor((items[i].max_price - items[i].min_price) * rng() + items[i].min_price) // random price in range
       }
       
       // get daily buyable items
