@@ -7,11 +7,18 @@ const seed_random = require("seedrandom");
 const catalog_magic_num = 0; // Add to random number seed to get catalog
 
 const prefix = bot_data.prefix;
-const commands = [
-  "view",
+const modules = [
+  "view"/*,
   "buy",
-  "sell"
+  "sell"*/
 ];
+var commands = []
+
+// Loop through all command modules
+modules.forEach(function(command) {
+  var command_data = require("./modules/market/" + command);
+  commands[command] = command_data.func;
+});
 
 const output_error = function(err) {
   if (err) {
@@ -49,8 +56,9 @@ const get_catalog = function(callback) {
       if (items.length == 0) break; // stop on no items
       var item_num = items.length * Math.floor(rng()); // random item
       var item_id = items[item_num].item_id;
+      var item_name = items[item_num].name;
       var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
-      catalog.push([item_id, price]);
+      catalog.push([item_id, item_name, Math.floor(price)]);
       
       //splice to disable duplicates
       items.splice(item_num, 1);
@@ -65,11 +73,12 @@ exports.func = function(message, command_content) {
   if (command_content[2].length == 0) {
     return display_commands(message, command_content);
   } else {
-    var command = command_module.commands[command_content[2]];
+    console.log(command_content);
+    var command = commands[command_content[2]];
     if (command == null) {
-      return message.reply("dude, you can't get help for something that doesn't exist. Use the help command for more info.", output_error);
+      return message.reply("dude, that doesn't exist. Use the market command for more info.", output_error);
     }
-    return command.help(message, command_content);
+    return command(message, command_content);
   }
 }
 
