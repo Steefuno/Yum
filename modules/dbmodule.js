@@ -143,11 +143,14 @@ const get_inventory = function(user_id, callback) {
 }
 
 // sets data for an inventory item for one player
-const set_inventory_item = function(user_id, item_id, amount, callback) {
+const add_inventory_item = function(user_id, item_id, amount, callback) {
   return db.run(`
     INSERT OR REPLACE
     INTO inventories (user_id, item_id, amount)
-    VALUES (?, ?, ?)
+    VALUES (?, ?, 
+      (
+
+      )
   `, [user_id, item_id, amount], callback);
 }
 

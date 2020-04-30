@@ -65,7 +65,8 @@ exports.func = function(message, command_content) {
               return message.reply("oops, something went wrong! You didn't lose " + currency + ", but you didn't buy the item either.", output_error);
             }
             
-            
+            // increment inventory
+            dbmodule.add_item()
           })
         });
       }
