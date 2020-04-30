@@ -39,7 +39,8 @@ const display_commands = function(message, command_content) {
       " + prefix + " market catalog - displays today's catalog\n\
       " + prefix + " market buy AMOUNT ID - buys AMOUNT market items\n\
       " + prefix + " market sell AMOUNT ID - sells AMOUNT items to the market\n\
-      \nfor the buy and sell commands, if you just use ID, I'll sell you one.\
+      \nYou can get item IDs from the catalog\n\
+      \nFor the buy and sell commands, if you just use ID, I'll sell you one.\
     ")
     .setFooter(message.author.username + "#" + message.author.discriminator)
     .setColor(6611350)
@@ -65,6 +66,13 @@ const get_catalog = function(callback) {
         var item_id = items[item_num].item_id;
         var item_name = items[item_num].name;
         var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
+        
+        /* [
+         *   item_id,
+         *   item_name,
+         *   today's price
+         * ]
+        */
         catalog.push([item_id, item_name, Math.floor(price)]);
 
         //splice to disable duplicates
