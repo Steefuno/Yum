@@ -39,6 +39,7 @@ const display_commands = function(message, command_content) {
       " + prefix + " market catalog - displays today's catalog\n\
       " + prefix + " market buy AMOUNT ID - buys AMOUNT market items\n\
       " + prefix + " market sell AMOUNT ID - sells AMOUNT items to the market\n\
+      Check your inventory for current sell prices\n\
       \nYou can get item IDs from the catalog\n\
       \nFor the buy and sell commands, if you just use ID, I'll sell you one.\
     ")
@@ -59,13 +60,18 @@ const get_catalog = function(callback) {
 
     return dbmodule.get_catalog_items((err, items) => {
       var catalog = [];
+      var prices = [];
+      
       var i;
+      for (i=0; i<items.length; i++) {
+        prices[items[i].item_id] = (items[i].max_price - items[i].min_price) * rng() + items[item_num].min_price // random price in range
+      }
+      
       for (i=0; i<bot_data.num_catalog_items; i++) {
         if (items.length == 0) break; // stop on no items
         var item_num = Math.floor(items.length * rng()); // random item
         var item_id = items[item_num].item_id;
         var item_name = items[item_num].name;
-        var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
         
         /* [
          *   item_id,
