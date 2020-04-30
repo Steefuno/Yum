@@ -36,7 +36,7 @@ exports.func = function(message, command_content) {
   
   // check if select item_id is being sold
   return market.get_catalog((catalog) => {
-    var price = catalog[1][item_id];
+    var price = catalog[1][item_id][0];
     
     // check if item doesn't exist
     if (price == null) {

@@ -23,10 +23,32 @@ exports.func = function(message, command_content) {
     return market.get_catalog((catalog) => {
       var prices = catalog[1];
       
+      var description = "";
+      var embed = new Discord.MessageEmbed()
+        .setTitle("Help Balance")
+        .setFooter(message.author.username + "#" + message.author.discriminator)
+        .setColor(6611350)
+      ;
+      var num_items = 0;
+      
       var i;
       for (i=0; i<rows.length; i++) {
-        
+        if (rows[i].amount > 0) {
+          if (num_items > 0) {
+            description = description + "\n";
+          }
+          description = description + rows[i].amount + "x - [ID:" + rows[i].item_id + "] " + prices[rows[i].item_id][1] + " - Value:" + prices[rows[i].item_id][0]
+          num_items = num_items + 1;
+        }
       }
+      
+      if (num_items == 0) {
+        description = "You have no items."
+      }
+      
+      embed = embed.setDescription(description);
+      
+      return message.channel.send("", embed, output_error);
     });
   });
 }

@@ -65,7 +65,10 @@ const get_catalog = function(callback) {
       // set daily prices
       var i;
       for (i=0; i<items.length; i++) {
-        prices[items[i].item_id] = Math.floor((items[i].max_price - items[i].min_price) * rng() + items[i].min_price) // random price in range
+        prices[items[i].item_id] = [
+          Math.floor((items[i].max_price - items[i].min_price) * rng() + items[i].min_price), // random price in range
+          items[i].name
+        ];
       }
       
       // get daily buyable items

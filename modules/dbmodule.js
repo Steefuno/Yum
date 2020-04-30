@@ -160,7 +160,7 @@ const get_inventory = function(user_id, callback) {
     SELECT *
     FROM inventories
     WHERE (user_id = ?)
-    GROUP BY (item_id)
+    ORDER BY (item_id)
   `, [user_id], callback);
 };
 
