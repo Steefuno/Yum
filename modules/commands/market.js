@@ -48,12 +48,12 @@ const get_catalog = function(callback) {
     for (i=0; i<bot_data.num_catalog_items; i++) {
       if (items.length == 0) break; // stop on no items
       var item_num = items.length * Math.floor(rng()); // random item
-      // pull to make sure no duplicates
-      
-      
       var item_id = items[item_num].item_id;
       var price = (items[item_num].max_price - items[item_num].min_price) * rng() + items[item_num].min_price; // random price in range
       catalog.push([item_id, price]);
+      
+      //splice to disable duplicates
+      items.splice(item_num, 1);
     }
     
     callback(catalog);

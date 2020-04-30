@@ -118,6 +118,7 @@ const get_catalog_items = function(callback) {
     SELECT *
     FROM items
     WHERE (on_catalog = 1)
+    ORDER BY item_id ASC
   `, [], callback);
 }
 
