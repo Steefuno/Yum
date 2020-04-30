@@ -153,6 +153,7 @@ const set_inventory_item = function(user_id, item_id, amount, callback) {
 exports.get_balance = get_balance;
 exports.set_balance = set_balance;
 exports.get_item_info = get_item_info;
+exports.get_catalog_items = get_catalog_items;
 exports.set_item = set_item;
 exports.get_inventory = get_inventory;
 exports.set_inventory_item = set_inventory_item;
