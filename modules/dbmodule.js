@@ -31,8 +31,8 @@ const init = function() {
   db.run(`
     CREATE TABLE IF NOT EXISTS balances (
       [user_id] TEXT NOT NULL,
-      [balance] TEXT DEFAULT 0,
-      [daily] TEXT DEFAULT 0,
+      [balance] TEXT DEFAULT "0",
+      [daily] TEXT DEFAULT "0",
       PRIMARY KEY (user_id),
       UNIQUE (user_id)
     )
@@ -143,7 +143,7 @@ const set_daily_time = function(user_id, callback) {
     VALUES (?, 0, ?)
     ON CONFLICT(user_id) DO UPDATE
       SET
-        daily = excluded.daily
+        daily = 15
   `, [user_id, Math.floor(Date.now()/1000/60)], callback);
 };
 
