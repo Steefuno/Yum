@@ -98,9 +98,10 @@ const get_balance = function(user_id, callback) {
 // set a player's balance
 const set_balance = function(user_id, value, callback) {
   return db.run(`
-    INSERT OR REPLACE
-    INTO balances (user_id, balance)
-    VALUES (?, ?)
+    INSERT INTO balances (user_id, balance, daily)
+    VALUES (?, ?, 0)
+    ON CONFLICT(user_id) DO UPDATE
+      SET balance = excluded.balance
   `, [user_id, value], callback);
 };
 
@@ -121,8 +122,11 @@ const add_balance = function(user_id, value, callback) {
             WHERE user_id = ?
           ), 0
         ) + ?
-      )
+      ),
+      0
     )
+    ON CONFLICT(user_id) DO UPDATE
+    SET balance = excluded.balance
   `, [user_id, user_id, value], callback);
 };
 
@@ -142,8 +146,7 @@ const set_daily_time = function(user_id, callback) {
     INSERT INTO balances(user_id, balance, daily)
     VALUES (?, 0, ?)
     ON CONFLICT(user_id) DO UPDATE
-      SET
-        daily = 15
+      SET daily = excluded.daily
   `, [user_id, Math.floor(Date.now()/1000/60)], callback);
 };
 
