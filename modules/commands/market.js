@@ -53,8 +53,8 @@ const get_catalog = function(callback) {
   var current_time = Date.now();
   if (catalog_cache == null || catalog_cache_prev - current_time > catalog_cache_timeout) {
     // if cache is unavailable
-    // get daily seed
-    var seed = Math.floor(current_time / 1000 / 60 / 60 / 24) + catalog_magic_num;
+    // get current seed
+    var seed = Math.floor(current_time / 1000 / 60 / 60 / 2) + catalog_magic_num;
     var rng = seed_random(seed);
 
     return dbmodule.get_catalog_items((err, items) => {
