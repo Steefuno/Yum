@@ -36,7 +36,7 @@ exports.func = function(message, command_content) {
         return message.reply("there's some problem, try again later.", output_error);
       }
       
-      return dbmodule.add_balance(message.author.id, bot_data.daily, (err) => {
+      return dbmodule.add_balance(message.author.id, 1, (err) => {
         if (err) {
           console.error("Fatal: Cannot add daily to balance of " + message.author.id + ".");
           console.error(err);
