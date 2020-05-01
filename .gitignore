@@ -1,3 +1,7 @@
-modules/bot*
+# protect bot token
+modules/bot_data.json
+# note to anyone forking project
+# the json contains: "token"<string> "prefix"<string> "currency"<string> "num_catalog_items"<integer> "daily"<integer> "admins"<array of integers>
+
 node_modules
 shrinkwrap.yaml
