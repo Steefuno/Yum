@@ -11,6 +11,7 @@ const modules = [
   "admin",
   "credits",
   "market",
+  "daily",
   "inventory"
 ];
 exports.commands = {};
