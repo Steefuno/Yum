@@ -109,7 +109,7 @@ const set_balance = function(user_id, value, callback) {
 const add_balance = function(user_id, value, callback) {
   return db.run(`
     INSERT OR REPLACE
-    INTO balances (user_id, balance)
+    INTO balances (user_id, balance, daily)
     VALUES
     (
       ?, 

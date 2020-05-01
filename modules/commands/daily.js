@@ -23,10 +23,9 @@ exports.func = function(message, command_content) {
     var current = Math.floor(Date.now()/1000/60);
     // if unavailable
     if (row != null && current - row.daily < 24) {
-      var hours_left = Math.floor(24 - (current - row.daily)*10)/10;
+      var hours_left = Math.floor((24 - (current - row.daily))*10)/10;
       return message.reply("you need to wait " + hours_left + " hours.");
     }
-    console.log(row.daily);
     
     // if available
     return dbmodule.set_daily_time(message.author.id, (err) => {
