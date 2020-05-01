@@ -139,10 +139,11 @@ const get_daily_time = function(user_id, callback) {
 // https://www.sqlite.org/lang_UPSERT.html
 const set_daily_time = function(user_id, callback) {
   return db.run(`
-    INSERT INTO balances(user_id, balance, )
+    INSERT INTO balances(user_id, balance, daily)
     VALUES (?, 0, ?)
     ON CONFLICT(user_id) DO UPDATE
-      SET daily = excluded.daily
+      SET
+        daily = excluded.daily
   `, [user_id, Math.floor(Date.now()/1000/60)], callback);
 };
 
